@@ -1,0 +1,44 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card p-4 shadow-lg" style="width: 400px;">
+    <h3 class="text-center mb-4">Login</h3>
+
+    <form (ngSubmit)="onLogin()">
+      <!-- username -->
+      <div class="mb-3">
+        <label for="username" class="form-label">username</label>
+        <input
+          id="username"
+          type="username"
+          class="form-control"
+          [(ngModel)]="username"
+          name="username"
+          placeholder="Enter your username"
+          required
+        />
+      </div>
+
+<div class="mb-3 position-relative">
+  <label for="password" class="form-label">Password</label>
+  <input
+    id="password"
+    [type]="showPassword ? 'text' : 'password'"
+    class="form-control"
+    [(ngModel)]="password"
+    name="password"
+    placeholder="Enter your password"
+    required
+  />
+  <span class="password-toggle" (click)="togglePassword()">
+    <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+  </span>
+</div>
+
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+    </form>
+
+    <p class="text-center mt-3">
+      Don’t have an account?
+      <a routerLink="/register" class="text-decoration-none">Register</a>
+    </p>
+  </div>
+</div>

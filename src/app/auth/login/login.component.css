@@ -1,0 +1,110 @@
+/* Full viewport container */
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f6f8; /* subtle background */
+}
+
+/* Card styling */
+.card {
+  width: 400px;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Heading */
+h3 {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 2rem; /* more space under heading */
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #4b4a4a;
+}
+
+/* Password container: position relative */
+.mb-3.position-relative {
+  position: relative; /* ensures the toggle can be positioned inside */
+}
+
+/* Input fields */
+input.form-control {
+  width: calc(100% - 0px); /* subtract padding to center inside card */
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 1.5rem; /* spacing between fields */
+  box-sizing: border-box; /* include padding in width */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Eye icon inside input */
+.password-toggle {
+  position: absolute;
+  top: 70%;
+  right: 12px; /* distance from the right edge */
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+  font-size: 1.2rem;
+  z-index: 2; /* ensure above input text */
+}
+
+.password-toggle:hover {
+  color: #007bff;
+}
+
+
+input.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+/* Button */
+button.btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button.btn:hover {
+  background-color: #0056b3;
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+/* Link styling */
+p.text-center {
+  margin-top: 1.5rem;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}

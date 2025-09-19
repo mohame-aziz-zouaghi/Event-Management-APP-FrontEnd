@@ -1,0 +1,133 @@
+/* Full viewport container */
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f6f8;
+}
+
+/* Card styling */
+.card {
+  width: 400px;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Heading */
+h3 {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #4b4a4a;
+}
+
+/* Add red asterisk */
+label span.text-danger {
+  margin-left: 2px;
+  color: #dc3545;
+  font-weight: 600;
+}
+
+/* Input fields */
+input.form-control,
+select.form-select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  display: block;
+}
+
+/* Input focus */
+input.form-control:focus,
+select.form-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+/* Each field container relative for error messages */
+.mb-3.position-relative {
+  position: relative;
+  margin-bottom: 4rem; /* increased space for error messages */
+}
+
+/* Password toggle eye */
+.password-toggle {
+  position: absolute;
+  top: 70%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+  font-size: 1.1rem;
+}
+
+.password-toggle:hover {
+  color: #007bff;
+}
+
+/* Error messages */
+.error-msg,
+small.text-danger {
+  color: #dc3545;
+  font-size: 0.85rem;
+  position: absolute;
+  bottom: -18px; /* right below input */
+  left: 0;
+  display: block;
+  margin: 0;
+}
+
+/* Button */
+button.btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button.btn:hover:enabled {
+  background-color: #0056b3;
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+button.btn:disabled {
+  background-color: #a1c4fd;
+  cursor: not-allowed;
+}
+
+/* Link styling */
+p.text-center {
+  margin-top: 1.5rem;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}

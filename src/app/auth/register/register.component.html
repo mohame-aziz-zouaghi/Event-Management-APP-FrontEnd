@@ -1,0 +1,104 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card p-4 shadow-lg" style="max-width: 800px; width: 100%;">
+    <h3 class="text-center mb-4 w-100">Register</h3>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+      <div class="row g-3">
+        <!-- Left Column -->
+        <div class="col-md-6">
+          <!-- First Name -->
+          <div class="mb-3 position-relative">
+            <label for="firstName" class="form-label">First Name<span class="text-danger">*</span></label>
+            <input id="firstName" type="text" class="form-control" formControlName="firstName" placeholder="Enter your first name">
+            <small class="error-msg" *ngIf="firstName.invalid && firstName.touched">
+              First name must be at least 3 characters
+            </small>
+          </div>
+
+          <!-- Username -->
+          <div class="mb-3 position-relative">
+            <label for="username" class="form-label">Username<span class="text-danger">*</span></label>
+            <input id="username" type="text" class="form-control" formControlName="username" placeholder="Choose a username">
+            <small class="error-msg" *ngIf="username.invalid && username.touched">
+              Username must be at least 5 characters
+            </small>
+          </div>
+
+          <!-- Date of Birth -->
+          <div class="mb-3 position-relative">
+            <label for="dateOfBirth" class="form-label">Date of Birth<span class="text-danger">*</span></label>
+            <input id="dateOfBirth" type="date" class="form-control" formControlName="dateOfBirth">
+            <small class="error-msg" *ngIf="dateOfBirth.invalid && dateOfBirth.touched">
+              Please select a valid date
+            </small>
+          </div>
+
+          <!-- Password -->
+          <div class="mb-3 position-relative">
+            <label for="password" class="form-label">Password<span class="text-danger">*</span></label>
+            <input id="password" [type]="showPassword ? 'text' : 'password'" class="form-control" formControlName="password" placeholder="Create a password">
+            <span class="password-toggle" (click)="togglePassword()">
+              <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+            </span>
+            <small class="error-msg" *ngIf="password.invalid && password.touched">
+              Password must be at least 8 characters 
+            </small>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-md-6">
+          <!-- Last Name -->
+          <div class="mb-3 position-relative">
+            <label for="lastName" class="form-label">Last Name<span class="text-danger">*</span></label>
+            <input id="lastName" type="text" class="form-control" formControlName="lastName" placeholder="Enter your last name">
+            <small class="error-msg" *ngIf="lastName.invalid && lastName.touched">
+              Last name must be at least 3 characters
+            </small>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3 position-relative">
+            <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
+            <input id="email" type="email" class="form-control" formControlName="email" placeholder="Enter your email">
+            <small class="error-msg" *ngIf="email.invalid && email.touched">
+              Please enter a valid email
+            </small>
+          </div>
+
+          <!-- Gender -->
+          <div class="mb-3 position-relative">
+            <label for="genre" class="form-label">Gender<span class="text-danger">*</span></label>
+            <select class="form-select" formControlName="genre">
+              <option value="" disabled>Select Gender</option>
+              <option value="MASCULIN">MASCULIN</option>
+              <option value="FEMININ">FEMININ</option>
+            </select>
+            <small class="error-msg" *ngIf="genre.invalid && genre.touched">
+              Please select a gender
+            </small>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="mb-3 position-relative">
+            <label for="confirmPassword" class="form-label">Confirm Password<span class="text-danger">*</span></label>
+            <input id="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'" class="form-control" formControlName="confirmPassword" placeholder="Confirm your password">
+            <span class="password-toggle" (click)="toggleConfirmPassword()">
+              <i class="bi" [ngClass]="showConfirmPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+            </span>
+            <small class="error-msg" *ngIf="confirmPassword.touched && registerForm.hasError('mismatch')">
+              Passwords do not match
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn btn-success w-100 mt-3" [disabled]="registerForm.invalid">Register</button>
+    </form>
+
+    <p class="text-center mt-3">
+      Already have an account? <a routerLink="/login" class="text-decoration-none">Login</a>
+    </p>
+  </div>
+</div>
