@@ -9,7 +9,7 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('jwtToken'); // or wherever you store the JWT
+    const token = localStorage.getItem('token'); // or wherever you store the JWT
 
     // Exclude login and register endpoints
     if (req.url.endsWith('/auth/login') || req.url.endsWith('/auth/register')) {

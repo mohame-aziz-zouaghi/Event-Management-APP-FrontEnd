@@ -1,0 +1,57 @@
+<div class="events-container">
+  <h1 class="text-center mb-4">All Upcoming Events</h1>
+
+  <div *ngIf="loading" class="loading text-center">
+    <p>Loading events...</p>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger text-center">
+    {{ error }}
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let event of events">
+      <div class="event-card shadow-sm p-3 h-100">
+        <div class="event-header mb-2">
+          <div
+            class="event-header mb-2 d-flex justify-content-between align-items-center"
+          >
+            <h5>{{ event.title }}
+                    <small *ngIf="event.organizerUsername" class="text-muted">by {{ event.organizerUsername }}</small>
+            </h5>
+            <small class="text-muted">{{ getTimeAgo(event.createAt) }}</small>
+          </div>
+          <small class="text-muted">{{ event.location }}</small>
+        </div>
+        <p class="event-description">{{ event.description }}</p>
+        <p class="event-date">
+          <strong>Start:</strong> {{ event.startDate | date : "medium" }} <br />
+          <strong>End:</strong> {{ event.endDate | date : "medium" }}
+        </p>
+        <p class="event-capacity">
+          <strong>Capacity:</strong> {{ event.capacity }}
+        </p>
+
+          <!-- Members Left -->
+  <p class="event-remaining" *ngIf="!isEventFull(event)">
+    <strong>Members Left:</strong> {{ getRemainingSpots(event) }}
+  </p>
+  <p class="text-danger font-weight-bold" *ngIf="isEventFull(event)">
+    Event is Full
+  </p>
+        <a
+          [routerLink]="['/events', event.id]"
+          class="btn btn-primary btn-block mt-auto"
+        >
+          View Details
+        </a>
+          <!-- Reserve Button -->
+  <button class="btn btn-success btn-block mt-2"
+          [disabled]="isEventFull(event)"
+          (click)="reserveSpot(event)">
+    Reserve a Spot
+  </button>
+      </div>
+    </div>
+  </div>
+</div>

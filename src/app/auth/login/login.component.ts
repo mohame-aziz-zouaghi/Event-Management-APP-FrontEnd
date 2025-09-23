@@ -18,8 +18,28 @@ export class LoginComponent {
   onLogin() {
     this.authService.login({ username: this.username, password: this.password }).subscribe({
       next: () => {
-        this.router.navigate(['/dashboard']);
-       console.log("Token : " + localStorage.getItem('token') + "\n" + "Username : "+ this.username);// redirect after login
+        const token = localStorage.getItem('token');
+
+        if (token) {
+          // Decode JWT payload
+          const payload = JSON.parse(atob(token.split('.')[1]));
+        const usernameFromToken = payload.sub; // get username from 'sub'
+          const role = payload.role || 'Unknown'; // default role 'user'
+
+          console.log(`Token: ${token}`);
+          console.log(`Username: ${usernameFromToken}`);
+          console.log(`Role: ${role}`);
+
+          // Role-based redirect
+          if (role.toLowerCase() === 'admin') {
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.router.navigate(['/home']);
+          }
+        } else {
+          // fallback redirect
+          this.router.navigate(['/home']);
+        }
       },
       error: err => {
         this.errorMessage = 'Invalid credentials!';

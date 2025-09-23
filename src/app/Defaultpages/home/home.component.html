@@ -1,0 +1,63 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero-section text-center">
+    <h1>Welcome to Eventify</h1>
+    <p>Organize, Manage, and Discover Events Effortlessly</p>
+    <a routerLink="/events" class="btn btn-primary btn-lg mt-3">Explore Events</a>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section text-center mt-5">
+    <div class="container">
+      <h2 class="mb-4">Why Choose Eventify?</h2>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="feature-card p-4 shadow-sm">
+            <i class="fas fa-calendar-alt fa-3x mb-3"></i>
+            <h5>Easy Scheduling</h5>
+            <p>Create and manage events quickly with our intuitive interface.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="feature-card p-4 shadow-sm">
+            <i class="fas fa-users fa-3x mb-3"></i>
+            <h5>Invite Participants</h5>
+            <p>Send invitations and manage attendees effortlessly.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="feature-card p-4 shadow-sm">
+            <i class="fas fa-chart-line fa-3x mb-3"></i>
+            <h5>Track Performance</h5>
+            <p>Analyze event engagement and attendance statistics.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Upcoming Events Section -->
+  <section class="upcoming-events-section mt-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Upcoming Events</h2>
+      <div class="row">
+        <div class="col-md-4 mb-4" *ngFor="let event of upcomingEvents">
+          <div class="event-card shadow-sm p-3">
+            <img [src]="event.image" alt="{{ event.title }}" class="img-fluid rounded mb-2">
+            <h5>{{ event.title }}</h5>
+            <p>{{ event.date | date:'mediumDate' }}</p>
+            <a [routerLink]="['/events', event.id]" class="btn btn-outline-primary btn-sm">View Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="cta-section text-center mt-5 py-5 bg-primary text-white">
+    <h2>Ready to Manage Your Events?</h2>
+    <p class="mb-3">Join Eventify today and simplify event management.</p>
+    <a (click)="handleGetStarted()" class="btn btn-light btn-lg">Get Started</a>
+
+  </section>
+</div>

@@ -1,0 +1,72 @@
+.events-container {
+  padding: 2rem;
+  font-family: 'Arial', sans-serif;
+}
+
+.events-container h1 {
+  font-weight: 700;
+  color: #0077ff;
+}
+
+.event-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  background: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.event-card .event-header h5 {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.2rem;
+}
+
+.event-card .event-header small {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.event-card .event-description {
+  font-size: 0.95rem;
+  color: #555;
+  flex-grow: 1;
+}
+
+.event-card .event-date,
+.event-card .event-capacity {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.3rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.event-header h5 {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0;
+}
+
+.event-header small {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.event-remaining {
+  font-size: 0.95rem;
+  color: #0077ff;
+  margin-bottom: 0.3rem;
+}
+
+.text-danger {
+  font-weight: 600;
+}
+
