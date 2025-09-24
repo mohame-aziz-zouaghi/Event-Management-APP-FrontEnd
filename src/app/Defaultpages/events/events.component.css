@@ -70,3 +70,182 @@
   font-weight: 600;
 }
 
+/* 🔹 New Additions */
+
+/* Time ago next to title */
+.event-timeago {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-left: 0.5rem;
+}
+
+/* Event ended */
+.event-ended {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #dc3545; /* bootstrap red */
+  margin-bottom: 0.3rem;
+}
+
+/* Reserve button */
+.btn-success {
+  background-color: #28a745;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.events-controls {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+
+
+/* Search & Filter Container */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+/* Search Input - Smaller Version */
+.filters input[type="text"] {
+  flex: 0 0 300px; /* smaller width */
+  padding: 0.35rem 0.6rem; /* slightly smaller padding */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.85rem; /* smaller font */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filters input[type="text"]:focus {
+  border-color: #0077ff;
+  box-shadow: 0 0 5px rgba(0, 119, 255, 0.3);
+  outline: none;
+}
+
+/* Filter Dropdown */
+.filters select.form-select {
+  flex: 0 0 160px; /* slightly smaller than before */
+  padding: 0.35rem 0.6rem; /* smaller padding */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.85rem; /* smaller font */
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filters select.form-select:focus {
+  border-color: #0077ff;
+  box-shadow: 0 0 5px rgba(0, 119, 255, 0.3);
+  outline: none;
+}
+
+/* Disabled filter option styling */
+.filters select.form-select option:disabled {
+  color: #999;
+  background-color: #f8f8f8;
+}
+
+/* Small responsive adjustment */
+@media (max-width: 576px) {
+  .filters {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filters input[type="text"],
+  .filters select.form-select {
+    width: 100%;
+    flex: 1 1 100%;
+  }
+}
+
+
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Modal card */
+.modal-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 2rem;
+  width: 450px;
+  max-width: 95%;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+  transform: translateY(-20px);
+  animation: slideIn 0.25s forwards;
+}
+
+/* Modal header */
+.modal-header {
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.modal-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Modal body */
+.modal-body .form-group label {
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.modal-body .form-control {
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border 0.2s;
+}
+
+.modal-body .form-control:focus {
+  border-color: #0077ff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 119, 255, 0.25);
+}
+
+/* Modal footer */
+.modal-footer {
+  border-top: 1px solid #e5e5e5;
+  padding-top: 1rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

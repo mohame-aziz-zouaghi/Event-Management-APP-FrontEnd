@@ -9,13 +9,15 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { EventsComponent } from './Defaultpages/events/events.component';
 import { HomeComponent } from './Defaultpages/home/home.component';
+import { OwnEventsComponent } from './Defaultpages/own-events/own-events.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     EventsComponent,
-    HomeComponent // ✅ only AppComponent here
+    HomeComponent,
+    OwnEventsComponent // ✅ only AppComponent here
   ],
   imports: [
     BrowserModule,
