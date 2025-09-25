@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EventService, Event } from '../../services/event.service';
 import { forkJoin, interval, Subscription } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
+import { ReservationService } from 'src/app/services/reservation.service';
 
 @Component({
   selector: 'app-events',
@@ -37,7 +38,7 @@ export class EventsComponent implements OnInit, OnDestroy {
     organizerId: 0 // will be set from logged-in user
   };
 
-  constructor(private eventService: EventService, private userService: UserService) {}
+  constructor(private eventService: EventService, private userService: UserService,private reservationService: ReservationService,) {}
 
   ngOnInit(): void {
     this.fetchEvents();
@@ -140,19 +141,59 @@ fetchEvents(): void {
            new Date(event.endDate).getTime() >= new Date().getTime();
   }
 
-  reserveSpot(event: Event): void {
-    if (this.isEventEnded(event)) {
-      alert('Sorry, this event has already ended.');
-      return;
-    }
-    if (this.isEventFull(event)) {
-      alert('Sorry, this event is already full.');
-      return;
-    }
 
-    // TODO: Call your reservation service here
-    console.log(`Reserved a spot for event: ${event.title}`);
+
+reserveSpot(event: Event): void {
+  if (this.isEventEnded(event)) {
+    alert('Sorry, this event has already ended.');
+    return;
   }
+
+  if (this.isEventFull(event)) {
+    alert('Sorry, this event is already full.');
+    return;
+  }
+
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('You must be logged in to reserve a spot.');
+    return;
+  }
+
+  const payload = JSON.parse(atob(token.split('.')[1]));
+  const userId = payload.userId;
+
+  this.reservationService.createReservation(userId, event.id!).subscribe({
+    next: (res) => {
+      alert(`Reservation successful! Your ticket: ${res.ticketNumber}`);
+      this.fetchEvents(); // refresh events to update status
+    },
+    error: (err) => {
+      console.error( err);
+
+      // Handle different error cases
+      let errorMsg = '';
+      if (typeof err.error === 'string') {
+        errorMsg = err.error; // plain text error
+      } else if (err.error?.message) {
+        errorMsg = err.error.message; // JSON error with message
+      }
+
+      if (errorMsg.includes('already reserved')) {
+        alert('You have already reserved a spot for this event.');
+      } else if (errorMsg.includes('capacity full')) {
+        alert('Sorry, the event is now full.');
+      } else {
+        alert('Failed to reserve a spot. Please try again.');
+      }
+    }
+  });
+}
+
+
+
+
+
 
   /** Check if the event has ended */
   isEventEnded(event: Event): boolean {

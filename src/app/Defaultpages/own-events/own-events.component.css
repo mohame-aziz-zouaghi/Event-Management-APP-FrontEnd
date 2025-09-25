@@ -45,3 +45,115 @@
   width: 100%;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
+
+
+/* Style the disabled edit button */
+.edit-btn:disabled {
+  background-color: #d6d6d6 !important;
+  border-color: #d6d6d6 !important;
+  color: #7a7a7a !important;
+  cursor: not-allowed;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  backdrop-filter: blur(3px);
+}
+
+/* Modal Card */
+.modal-card {
+  background: #fff;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  animation: fadeInScale 0.25s ease-in-out;
+}
+
+/* Modal Title */
+.modal-card h5 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #f1f1f1;
+  padding-bottom: 0.5rem;
+}
+
+/* Reservation List */
+.list-group {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list-group-item {
+  border: none;
+  border-bottom: 1px solid #eee;
+  padding: 1rem;
+  background: #fafafa;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  transition: background 0.2s ease;
+}
+
+.list-group-item:hover {
+  background: #f0f0f0;
+}
+
+/* Reservation Info */
+.list-group-item strong {
+  font-size: 1rem;
+  color: #2c3e50;
+}
+
+.list-group-item small {
+  display: block;
+  color: #7f8c8d;
+  margin-bottom: 0.5rem;
+}
+
+.list-group-item span {
+  display: block;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Footer Buttons */
+.modal-card .btn {
+  min-width: 120px;
+  font-weight: 500;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  border: none;
+  color: #fff;
+  transition: background 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+}
+
+/* Animations */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+

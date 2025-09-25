@@ -16,6 +16,9 @@ export class OwnEventsComponent implements OnInit {
   showEditModal: boolean = false;
   editEvent!: Event;
 
+  showReservationsModal: boolean = false;
+selectedReservations: any[] = [];
+
   constructor(private eventService: EventService, private userService: UserService) {}
 
   ngOnInit(): void {
@@ -166,6 +169,46 @@ sortUserEvents(): void {
     });
   }
 
+openReservations(event: Event): void {
+  if (!event.reservations) {
+    this.selectedReservations = [];
+    this.showReservationsModal = true;
+    return;
+  }
 
+  // Enrich reservations with user data
+  this.selectedReservations = [];
+  event.reservations.forEach(res => {
+    this.userService.getUserByid(res.userId).subscribe({
+      next: (user) => {
+        this.selectedReservations.push({
+          username: user.username,
+          email: user.email,
+          ticketnumber: res.ticketNumber,
+          reservationDate: res.reservationDate,
+          status: res.status
+        });
+      },
+      error: () => {
+        // fallback if user fetch fails
+        this.selectedReservations.push({
+          username: 'Unknown User',
+          email: 'Not Available',
+          ticketnumber: res.ticketnumber,
+          reservationDate: res.reservationDate,
+          status: res.status
+        });
+      }
+    });
+  });
+
+  this.showReservationsModal = true;
+  document.body.style.overflow = 'hidden'; // disable scroll
+}
+
+closeReservations(): void {
+  this.showReservationsModal = false;
+  document.body.style.overflow = 'auto'; // re-enable scroll
+}
   
 }

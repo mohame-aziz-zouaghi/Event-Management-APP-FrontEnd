@@ -16,6 +16,7 @@ export interface Event {
   createAt: string;    // ISO string
     // Add this for display purpose
   organizerUsername?: string;
+  ticketNumber:string;
 }
 
 @Injectable({
@@ -48,7 +49,7 @@ export class EventService {
   }
 
   /** Delete event by ID */
-  deleteEvent(id: number | string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  deleteEvent(id: number | string) {
+    return this.http.delete(`${this.baseUrl}/${id}`,{responseType:'text'});
   }
 }
