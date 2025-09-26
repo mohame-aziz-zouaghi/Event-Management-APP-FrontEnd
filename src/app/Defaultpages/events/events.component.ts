@@ -35,8 +35,20 @@ export class EventsComponent implements OnInit, OnDestroy {
     capacity: 0,
     startDate: '',
     endDate: '',
-    organizerId: 0 // will be set from logged-in user
+    organizerId: 0, // will be set from logged-in user
   };
+  newEventPhotos: { file: File; preview: string }[] = [];
+
+
+  // Backend URL prefix for photos
+backendUrl = 'http://localhost:8089'; // replace with your backend if needed
+  showEventModal: boolean = false;
+selectedEvent: any = null;
+
+
+// Properties
+showPhotoModal: boolean = false;
+selectedPhoto: string | null = null;
 
   constructor(private eventService: EventService, private userService: UserService,private reservationService: ReservationService,) {}
 
@@ -330,12 +342,35 @@ toggleBodyScroll(): void {
     return;
   }
 
+
+const formData = new FormData();
+formData.append('event', JSON.stringify(this.newEvent));
+
+// Only append photos if any
+if (this.newEventPhotos && this.newEventPhotos.length > 0) {
+  this.newEventPhotos.forEach(photoObj => {
+    formData.append('photos', photoObj.file);
+  });
+}
+
+
+  // Log FormData for debugging
+  console.log('FormData contents:');
+  for (const pair of (formData as any).entries()) {
+    if (pair[1] instanceof File) {
+      console.log(pair[0], pair[1].name);
+    } else {
+      console.log(pair[0], pair[1]);
+    }
+  }
+
   // Submit the event
-  this.eventService.addEvent(this.newEvent as Event).subscribe({
+  this.eventService.addEvent(formData).subscribe({
     next: (event) => {
       alert(`Event "${event.title}" added successfully!`);
       this.closeAddEventCard();// hides the modal + restores scrolling
       this.newEvent = { title: '', description: '', location: '', capacity: 5, startDate: '', endDate: '', organizerId: 0 };
+      this.newEventPhotos = [];
       this.fetchEvents(); // refresh list
     },
     error: (err) => {
@@ -346,7 +381,63 @@ toggleBodyScroll(): void {
 }
 
 
+onNewPhotosSelected(event: any): void {
+  const files: FileList = event.target.files;
+  if (files) {
+    for (let i = 0; i < files.length; i++) {
+      if (this.newEventPhotos.length >= 5) {
+        alert('Maximum 5 photos allowed.');
+        break;
+      }
+      const file = files[i];
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.newEventPhotos.push({ file, preview: e.target.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+}
+
+removeNewPhoto(index: number): void {
+  this.newEventPhotos.splice(index, 1);
+}
+
+openEventModal(event: any) {
+  this.selectedEvent = event;
+  this.showEventModal = true;
+  document.body.style.overflow = 'hidden'; // disable scrolling
+}
+
+closeEventModal() {
+  this.showEventModal = false;
+  this.selectedEvent = null;
+  document.body.style.overflow = 'auto'; // enable scrolling
+}
+
+getPhotoUrl(photoPath: string): string {
+
+  console.log(this.backendUrl + photoPath)
+  // Remove leading slash to prevent double slashes
+  if (photoPath.startsWith('/')) {
+    photoPath = photoPath.substring(1);
+  }
+  return `${this.backendUrl}/${photoPath}`;
+}
 
 
+// Open the photo modal
+openPhotoModal(photo: string) {
+  this.selectedPhoto = photo;
+  this.showPhotoModal = true;
+  document.body.style.overflow = 'hidden'; // prevent background scroll
+}
+
+// Close the photo modal
+closePhotoModal() {
+  this.showPhotoModal = false;
+  this.selectedPhoto = null;
+  document.body.style.overflow = 'auto';
+}
 
 }

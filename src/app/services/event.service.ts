@@ -17,6 +17,7 @@ export interface Event {
     // Add this for display purpose
   organizerUsername?: string;
   ticketNumber:string;
+  photosUrls?:String[]; 
 }
 
 @Injectable({
@@ -29,8 +30,8 @@ export class EventService {
   constructor(private http: HttpClient) {}
 
   /** Add new event */
-  addEvent(event: Event): Observable<Event> {
-    return this.http.post<Event>(`${this.baseUrl}/add`, event);
+  addEvent(formData : FormData): Observable<Event> {
+    return this.http.post<Event>(`${this.baseUrl}/add`, formData);
   }
 
   /** Get all events */
@@ -52,4 +53,9 @@ export class EventService {
   deleteEvent(id: number | string) {
     return this.http.delete(`${this.baseUrl}/${id}`,{responseType:'text'});
   }
+
+  /** Get photos for an event */
+getEventPhotos(eventId: number): Observable<string[]> {
+  return this.http.get<string[]>(`${this.baseUrl}/event-photos/${eventId}`);
+}
 }
