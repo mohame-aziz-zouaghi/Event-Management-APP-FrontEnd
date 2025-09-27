@@ -41,8 +41,10 @@
     <button #dropdownBtn class="nav-link dropdown-toggle d-flex align-items-center"
             type="button" (click)="toggleDropdown()"
             aria-haspopup="true" [attr.aria-expanded]="dropdownOpen">
-      <img [src]="userImage" class="rounded-circle mr-2" alt="User" width="50" height="30">
-      <span>{{ username }}</span>
+<img [src]="userImage"
+     class="profile-img"
+     alt="User Avatar">      
+     <span>{{ username }}</span>
     </button>
 
     <div class="dropdown-menu dropdown-menu-right" [class.show]="dropdownOpen">

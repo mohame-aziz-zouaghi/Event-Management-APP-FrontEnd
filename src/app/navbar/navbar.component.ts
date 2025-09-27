@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,13 +13,18 @@ export class NavbarComponent implements OnInit {
   userImage = 'assets/img/default-avatar.png';
   dropdownOpen = false;
   username: string = '';
+  userId:number=0;
+backendUrl = 'http://localhost:8089'; 
+
 
   // Reference to the dropdown button/container
   @ViewChild('dropdownBtn') dropdownBtn!: ElementRef;
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService // inject service
+
   ) {}
 
   ngOnInit(): void {
@@ -45,10 +51,34 @@ export class NavbarComponent implements OnInit {
     if (token) {
       const payload = this.parseJwt(token);
       this.username = payload.sub;
+            this.userId = payload.userId;
+      this.loadUserImage(); // fetch image from backend
     }
 
     const storedUserImg = localStorage.getItem('userImage');
     this.userImage = storedUserImg ? storedUserImg : 'assets/img/default-avatar.png';
+  }
+
+
+    loadUserImage(): void {
+    if (!this.userId) return;
+
+    this.userService.getUserByid(this.userId).subscribe({
+      next: (user) => {
+        if (user.profilePicture) {
+          // Assuming your backend serves images at /users/{filename}
+          this.userImage = this.backendUrl + user.profilePicture;
+          console.log(this.userImage);
+        } else {
+          this.userImage = 'assets/img/default-avatar.png';
+        }
+        localStorage.setItem('userImage', this.userImage); // cache for fast load
+      },
+      error: (err) => {
+        console.error('Failed to load user image', err);
+        this.userImage = 'assets/img/default-avatar.png';
+      }
+    });
   }
 
   logout() {

@@ -13,6 +13,9 @@ export class RegisterComponent implements OnInit {
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
 
+  profilePreview: string | ArrayBuffer | null = null; // for image preview
+  profileBase64: string | null = null; // for sending to backend
+
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
 
 ngOnInit() {
@@ -45,13 +48,32 @@ ngOnInit() {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  onRegister() {
-    if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe({
-        next: () => this.router.navigate(['/login']),
-        error: (err) => {console.error(err)
-        console.log(this.registerForm.value)}
-      });
+onRegister() {
+  if (this.registerForm.valid) {
+    // Create payload excluding confirmPassword
+    const { confirmPassword, ...formValues } = this.registerForm.value;
+
+    const payload = { 
+      ...formValues,
+      profilePicture: this.profileBase64 // include the Base64 image
+    };
+
+    this.authService.register(payload).subscribe({
+      next: () => this.router.navigate(['/login']),
+      error: (err) => console.error(err)
+    });
+  }
+}
+
+  onProfileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.profilePreview = reader.result;
+        this.profileBase64 = reader.result as string;
+      };
+      reader.readAsDataURL(file); // convert to Base64 string
     }
   }
 

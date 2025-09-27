@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface User {
+  id:number;
   firstName: string;
   lastName: string;
   username: string;
@@ -11,6 +12,7 @@ export interface User {
   genre: 'MASCULIN' | 'FEMININ' | 'OTHER';
   organizedEvents: any[]; // You can replace `any` with Event interface later
   reservations: any[]; // You can replace `any` with Reservation interface later
+  profilePicture:string;
 }
 
 

@@ -1,30 +1,34 @@
 .events-container {
   padding: 2rem;
   font-family: 'Arial', sans-serif;
+  background: #f9f9f9; /* subtle background for cards */
 }
 
 .events-container h1 {
   font-weight: 700;
   color: #0077ff;
+  margin-bottom: 1.5rem;
 }
 
 .event-card {
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
-  background: #fff;
-  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 1rem;
 }
 
 .event-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
 
 .event-card .event-header h5 {
   font-weight: 600;
   color: #333;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.3rem;
 }
 
 .event-card .event-header small {
@@ -36,6 +40,8 @@
   font-size: 0.95rem;
   color: #555;
   flex-grow: 1;
+  margin: 0.5rem 0;
+  line-height: 1.4;
 }
 
 .event-card .event-date,
@@ -45,52 +51,27 @@
   margin-bottom: 0.3rem;
 }
 
-.btn-block {
-  width: 100%;
-}
-
-.event-header h5 {
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 0;
-}
-
-.event-header small {
-  font-size: 0.8rem;
-  color: #999;
-}
-
 .event-remaining {
   font-size: 0.95rem;
   color: #0077ff;
   margin-bottom: 0.3rem;
 }
 
-.text-danger {
-  font-weight: 600;
-}
-
-/* 🔹 New Additions */
-
-/* Time ago next to title */
-.event-timeago {
-  font-size: 0.8rem;
-  color: #aaa;
-  margin-left: 0.5rem;
-}
-
-/* Event ended */
 .event-ended {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #dc3545; /* bootstrap red */
+  color: #dc3545;
   margin-bottom: 0.3rem;
 }
 
-/* Reserve button */
+.btn-block {
+  width: 100%;
+}
+
 .btn-success {
   background-color: #28a745;
   border: none;
+  font-weight: 500;
   transition: background-color 0.2s ease;
 }
 
@@ -98,11 +79,69 @@
   background-color: #218838;
 }
 
-.events-controls {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 1.5rem;
+.btn-primary {
+  background-color: #0077ff;
+  border: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
 }
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Time ago next to title */
+.event-timeago {
+  font-size: 0.8rem;
+  color: #999;
+  margin-left: 0.5rem;
+  font-style: italic;
+}
+
+/* Photos inside event card (if any) */
+.event-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 6px;
+  margin-top: 0.5rem;
+}
+
+.event-photos img {
+  border-radius: 6px;
+  object-fit: cover;
+  width: 100%;
+  height: 80px;
+}
+
+/* Status labels clean look */
+.status-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.status-not-started {
+  background-color: #e7f1ff;
+  color: #0077ff;
+}
+
+.status-full {
+  background-color: #ffe8e8;
+  color: #dc3545;
+}
+
+.status-started {
+  background-color: #e8f9e8;
+  color: #28a745;
+}
+
+.status-ended {
+  background-color: #f2f2f2;
+  color: #6c757d;
+}
+
+
 
 
 

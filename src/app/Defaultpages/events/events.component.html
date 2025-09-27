@@ -260,11 +260,16 @@
 
     <div class="mb-2">
       <strong>Photos:</strong>
-      <div class="photo-grid mt-2">
-        <div class="photo-thumb" *ngFor="let photo of selectedEvent.photoUrls">
-<img [src]="getPhotoUrl(photo)" alt="Event photo" (click)="openPhotoModal(photo)"/>
+      <div *ngIf="selectedEvent.photoUrls?.length; else noPhotos">
+        <div class="photo-grid mt-2">
+          <div class="photo-thumb" *ngFor="let photo of selectedEvent.photoUrls">
+            <img [src]="getPhotoUrl(photo)" alt="Event photo" (click)="openPhotoModal(photo)"/>
+          </div>
         </div>
       </div>
+      <ng-template #noPhotos>
+        <p class="text-muted">No photos available for this event.</p>
+      </ng-template>
     </div>
 
     <div class="mb-2">
@@ -285,6 +290,7 @@
     </div>
   </div>
 </div>
+
 
 
 <!-- Photo Modal -->

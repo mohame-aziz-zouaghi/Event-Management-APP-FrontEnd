@@ -17,7 +17,7 @@ export interface Event {
     // Add this for display purpose
   organizerUsername?: string;
   ticketNumber:string;
-  photosUrls?:String[]; 
+  photoUrls?:string[]; 
 }
 
 @Injectable({
@@ -45,8 +45,8 @@ export class EventService {
   }
 
   /** Update event by ID */
-  updateEvent(id: number | string, event: Event): Observable<Event> {
-    return this.http.put<Event>(`${this.baseUrl}/update/${id}`, event);
+  updateEvent(id: number | string, formData : FormData ): Observable<Event> {
+    return this.http.put<Event>(`${this.baseUrl}/update/${id}`, formData);
   }
 
   /** Delete event by ID */

@@ -104,19 +104,16 @@
   cursor: pointer;
 }
 
-/* Profile image */
+/* Profile image for navbar */
 .profile-img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid #0077ff;
-  object-fit: cover;
-  margin-right: 0.5rem;
-  transition: transform 0.2s ease;
-}
-
-.profile-img:hover {
-  transform: scale(1.1);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;         /* Perfect circle */
+  border: 2px solid #000;     /* Black border */
+  object-fit: cover;          /* Keeps aspect ratio */
+  margin-right: 0.6rem;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Subtle shadow */
 }
 
 /* My Profile button */

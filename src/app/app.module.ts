@@ -11,13 +11,16 @@ import { EventsComponent } from './Defaultpages/events/events.component';
 import { HomeComponent } from './Defaultpages/home/home.component';
 import { OwnEventsComponent } from './Defaultpages/own-events/own-events.component';
 
+import { UserSettingsComponent } from './Defaultpages/user-settings/user-settings.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     EventsComponent,
     HomeComponent,
-    OwnEventsComponent // ✅ only AppComponent here
+    OwnEventsComponent,
+    UserSettingsComponent // ✅ only AppComponent here
   ],
   imports: [
     BrowserModule,

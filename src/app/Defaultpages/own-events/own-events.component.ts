@@ -14,10 +14,12 @@ export class OwnEventsComponent implements OnInit {
   error: string = '';
 
   showEditModal: boolean = false;
-  editEvent!: Event;
+editEvent: any = {};
 
   showReservationsModal: boolean = false;
 selectedReservations: any[] = [];
+selectedNewPhotos: File[] = [];
+backendUrl = 'http://localhost:8089';
 
   constructor(private eventService: EventService, private userService: UserService) {}
 
@@ -25,27 +27,30 @@ selectedReservations: any[] = [];
     this.fetchUserEvents();
   }
 
-  fetchUserEvents(): void {
-    this.loading = true;
-    // Assuming we have user ID from JWT
-    const token = localStorage.getItem('token');
-    if (!token) return;
+fetchUserEvents(): void {
+  this.loading = true;
+  const token = localStorage.getItem('token');
+  if (!token) return;
 
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const userId = payload.userId;
+  const payload = JSON.parse(atob(token.split('.')[1]));
+  const userId = payload.userId;
 
-    this.eventService.getAllEvents().subscribe({
-      next: (data) => {
-        this.userEvents = data.filter(event => event.organizerId === userId);
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.error = 'Failed to load your events.';
-        this.loading = false;
-      }
-    });
-  }
+  this.eventService.getAllEvents().subscribe({
+    next: (data) => {
+      this.userEvents = data.filter(event => event.organizerId === userId);
+
+      // Sort here AFTER fetching
+      this.sortUserEvents();
+
+      this.loading = false;
+    },
+    error: (err) => {
+      console.error(err);
+      this.error = 'Failed to load your events.';
+      this.loading = false;
+    }
+  });
+}
 
   isEventFull(event: Event): boolean {
     return (event.capacity - (event.reservations?.length || 0)) <= 0;
@@ -90,17 +95,19 @@ getFullStatus(event: Event): string {
 
 // ---------------- Sorting Events ----------------
 sortUserEvents(): void {
+  const now = new Date().getTime();
+
   this.userEvents.sort((a, b) => {
-    const now = new Date().getTime();
     const startA = new Date(a.startDate).getTime();
     const endA = new Date(a.endDate).getTime();
     const startB = new Date(b.startDate).getTime();
     const endB = new Date(b.endDate).getTime();
 
     const statusOrder = (event: Event) => {
-      if (now < startA) return 0; // Not Started Yet
-      if (now >= startA && now < endA) return 1; // Started
-      return 2; // Ended
+      if (now < new Date(event.startDate).getTime()) return 0; // Not Started
+      if (!this.isEventEnded(event) && this.isEventFull(event)) return 1; // Full
+      if (now >= new Date(event.startDate).getTime() && now < new Date(event.endDate).getTime()) return 2; // Started
+      return 3; // Ended
     };
 
     return statusOrder(a) - statusOrder(b);
@@ -134,24 +141,34 @@ sortUserEvents(): void {
     document.body.style.overflow = 'auto'; // Enable scrolling
   }
 
-  submitEditEvent(): void {
-    if (!this.editEvent.title || !this.editEvent.description || !this.editEvent.location) {
-      alert('Please fill in all required fields.');
-      return;
-    }
-
-    this.eventService.updateEvent(this.editEvent.id!, this.editEvent).subscribe({
-      next: (updatedEvent) => {
-        alert(`Event "${updatedEvent.title}" updated successfully!`);
-        this.closeEditModal();
-        this.fetchUserEvents();
-      },
-      error: (err) => {
-        console.error(err);
-        alert('Failed to update event. Please try again.');
-      }
-    });
+  // Submit edit (details + photos)
+submitEditEvent(): void {
+  if (!this.editEvent.title || !this.editEvent.description || !this.editEvent.location) {
+    alert('Please fill in all required fields.');
+    return;
   }
+
+  const formData = new FormData();
+  formData.append('event', new Blob([JSON.stringify(this.editEvent)], { type: 'application/json' }));
+
+  // append new photos if any
+  this.selectedNewPhotos.forEach(file => {
+    formData.append('photos', file);
+  });
+
+  this.eventService.updateEvent(this.editEvent.id!, formData).subscribe({
+    next: (updatedEvent) => {
+      alert(`Event "${updatedEvent.title}" updated successfully!`);
+      this.closeEditModal();
+      this.fetchUserEvents();
+      this.selectedNewPhotos = []; // reset
+    },
+    error: (err) => {
+      console.error(err);
+      alert('Failed to update event. Please try again.');
+    }
+  });
+}
 
   // ---------------- Delete Event ----------------
   deleteEvent(event: Event): void {
@@ -210,5 +227,44 @@ closeReservations(): void {
   this.showReservationsModal = false;
   document.body.style.overflow = 'auto'; // re-enable scroll
 }
+
+
+
+
+// Remove existing photo
+removePhoto(index: number): void {
+  this.editEvent.photoUrls!.splice(index, 1);
+}
+
+// Handle new photo upload
+onPhotoSelected(event: any): void {
+  const files = event.target.files;
+  if (files && files.length > 0) {
+    for (let i = 0; i < files.length; i++) {
+      this.selectedNewPhotos.push(files[i]);
+    }
+  }
+}
+
+
+getPhotoUrl(photoPath: string): string {
+  if (!photoPath) {
+    console.warn('⚠️ Empty photoPath received');
+    return '';
+  }
+
+  // Avoid double slashes
+  const fullUrl = `${this.backendUrl}${photoPath.startsWith('/') ? '' : '/'}${photoPath}`;
+
+  // 🔹 Log what’s being built
+  console.log('🖼️ Building photo URL:', { raw: photoPath, final: fullUrl });
+
+  return fullUrl;
+}
+
+
+
+
+
   
 }

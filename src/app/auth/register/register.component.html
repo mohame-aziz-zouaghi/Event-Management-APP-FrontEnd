@@ -2,6 +2,14 @@
   <div class="card p-4 shadow-lg" style="max-width: 800px; width: 100%;">
     <h3 class="text-center mb-4 w-100">Register</h3>
 
+    
+    <!-- Profile Picture -->
+    <div class="mb-4 text-center">
+      <label for="profilePicture" class="form-label d-block">Profile Picture</label>
+      <input type="file" id="profilePicture" (change)="onProfileSelected($event)" accept="image/*" class="form-control-file mb-2"/>
+      <img *ngIf="profilePreview" [src]="profilePreview" class="rounded-circle" alt="Profile Preview" width="100" height="100">
+    </div>
+
     <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
       <div class="row g-3">
         <!-- Left Column -->

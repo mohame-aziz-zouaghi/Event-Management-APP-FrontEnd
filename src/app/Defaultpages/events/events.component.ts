@@ -72,21 +72,22 @@ fetchEvents(): void {
   this.loading = true;
   this.eventService.getAllEvents().subscribe({
     next: (data) => {
-      // Custom sort for event availability
+      const now = new Date().getTime();
+
       this.events = data.sort((a, b) => {
-        const aEnded = this.isEventEnded(a);
-        const bEnded = this.isEventEnded(b);
+        const statusOrder = (event: Event) => {
+          const start = new Date(event.startDate).getTime();
+          const end = new Date(event.endDate).getTime();
+          const full = this.isEventFull(event);
+          const ended = this.isEventEnded(event);
 
-        const aFull = this.isEventFull(a);
-        const bFull = this.isEventFull(b);
+          if (now < start) return 0;           // Not Started
+          if (!ended && full) return 1;        // Full
+          if (now >= start && now < end) return 2; // Started
+          return 3;                            // Ended
+        };
 
-        // Available: not full and not ended → rank 0
-        // Full but not ended → rank 1
-        // Ended → rank 2
-        const rankA = aEnded ? 2 : (aFull ? 1 : 0);
-        const rankB = bEnded ? 2 : (bFull ? 1 : 0);
-
-        return rankA - rankB; // lower rank first
+        return statusOrder(a) - statusOrder(b);
       });
 
       this.loadOrganizersUsernames();
@@ -101,6 +102,7 @@ fetchEvents(): void {
     }
   });
 }
+
 
 
   /** Load organizer usernames for each event */

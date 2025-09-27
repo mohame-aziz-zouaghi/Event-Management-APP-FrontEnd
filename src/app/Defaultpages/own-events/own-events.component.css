@@ -157,3 +157,50 @@
   }
 }
 
+
+/* Wrapper makes the ❌ position absolute relative to it */
+.photo-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Image preview */
+.edit-photo-thumb {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  display: block;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edit-photo-thumb:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ❌ button styled manually */
+.remove-photo-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.remove-photo-btn:hover {
+  transform: scale(1.2);
+  color: #ff4d4d;
+}
+
+
+
