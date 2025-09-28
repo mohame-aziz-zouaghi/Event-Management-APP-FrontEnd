@@ -41,9 +41,9 @@ export class UserService {
   }
 
   /** Update a user */
-  updateUser(id: number, user: Partial<User>): Observable<User> {
-    return this.http.put<User>(`${this.baseUrl}/update/${id}`, user);
-  }
+updateUser(id: number, formData: FormData): Observable<User> {
+  return this.http.put<User>(`${this.baseUrl}/update/${id}`, formData);
+}
 
   /** Delete a user */
   deleteUser(id: number): Observable<void> {

@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener, ElementRef, ViewChild } from '@angular
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { UserService } from '../services/user.service';
+import { UserStateService } from '../services/UserStateService';
 
 @Component({
   selector: 'app-navbar',
@@ -23,18 +24,22 @@ backendUrl = 'http://localhost:8089';
   constructor(
     private router: Router,
     private authService: AuthService,
-    private userService: UserService // inject service
+    private userService: UserService, // inject service
+    private userStateService:UserStateService
 
   ) {}
 
-  ngOnInit(): void {
-    this.checkAuth();
+ngOnInit(): void {
+  this.checkAuth();
 
-    // Listen for token changes in other tabs/windows
-    window.addEventListener('storage', () => {
-      this.checkAuth();
-    });
-  }
+  // Subscribe to image updates
+  this.userStateService.userImage$.subscribe(img => {
+    this.userImage = img;
+  });
+
+  // Load initial image from backend
+  this.loadUserImage();
+}
 
   toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;
@@ -60,26 +65,24 @@ backendUrl = 'http://localhost:8089';
   }
 
 
-    loadUserImage(): void {
-    if (!this.userId) return;
+loadUserImage(): void {
+  const token = this.authService.getToken();
+  if (!token) return;
 
-    this.userService.getUserByid(this.userId).subscribe({
-      next: (user) => {
-        if (user.profilePicture) {
-          // Assuming your backend serves images at /users/{filename}
-          this.userImage = this.backendUrl + user.profilePicture;
-          console.log(this.userImage);
-        } else {
-          this.userImage = 'assets/img/default-avatar.png';
-        }
-        localStorage.setItem('userImage', this.userImage); // cache for fast load
-      },
-      error: (err) => {
-        console.error('Failed to load user image', err);
-        this.userImage = 'assets/img/default-avatar.png';
-      }
-    });
-  }
+  const payload = this.parseJwt(token);
+  const userId = payload?.userId; // replace subId with the correct claim if needed
+  if (!userId) return;
+
+  this.userService.getUserByid(userId).subscribe({
+    next: (user) => {
+      const url = user.profilePicture ? this.backendUrl + user.profilePicture : 'assets/img/default-avatar.png';
+      this.userStateService.setUserImage(url); // update navbar immediately
+    },
+    error: () => {
+      this.userStateService.setUserImage('assets/img/default-avatar.png');
+    }
+  });
+}
 
   logout() {
     this.authService.logout();

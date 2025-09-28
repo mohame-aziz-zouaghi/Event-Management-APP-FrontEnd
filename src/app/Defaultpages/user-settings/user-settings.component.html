@@ -1,1 +1,58 @@
-<p>user-settings works!</p>
+<div class="user-settings-wrapper">
+  <div class="user-settings-container">
+
+    <!-- Profile Picture at Top -->
+    <div class="profile-picture-section">
+      <img
+        [src]="profilePreview || 'assets/img/default-avatar.png'"
+        alt="Profile Picture"
+        class="profile-picture"
+      />
+      <label>
+        <input type="file" hidden (change)="onProfileSelected($event)" />
+        Change Profile Picture
+      </label>
+    </div>
+
+    <!-- Card with all fields -->
+    <div class="user-info-card">
+      <h2>Account Settings</h2>
+      <form [formGroup]="userForm" (ngSubmit)="onSave()">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input id="firstName" type="text" formControlName="firstName" />
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input id="lastName" type="text" formControlName="lastName" />
+        </div>
+
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input id="username" type="text" formControlName="username" />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email" />
+        </div>
+
+        <div class="form-group">
+          <label for="dateOfBirth">Date of Birth</label>
+          <input id="dateOfBirth" type="date" formControlName="dateOfBirth" />
+        </div>
+
+        <div class="form-group">
+          <label for="genre">Gender</label>
+          <select id="genre" formControlName="genre">
+            <option value="MASCULIN">MASCULIN</option>
+            <option value="FEMININ">FEMININ</option>
+          </select>
+        </div>
+
+        <button type="submit" class="save-btn" [disabled]="userForm.invalid">Save Changes</button>
+      </form>
+    </div>
+  </div>
+</div>
