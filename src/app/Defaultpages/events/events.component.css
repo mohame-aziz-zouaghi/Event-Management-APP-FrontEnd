@@ -218,6 +218,8 @@
   align-items: center;
   z-index: 1000;
   animation: fadeIn 0.2s ease-in-out;
+  overflow: hidden; /* prevent double scroll */
+
 }
 
 /* Modal card */
@@ -230,6 +232,8 @@
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
   transform: translateY(-20px);
   animation: slideIn 0.25s forwards;
+    max-height: 90vh; /* limit modal height */
+  overflow-y: auto; /* enable scrolling inside */
 }
 
 /* Modal header */
@@ -465,4 +469,16 @@
   align-items: center;
 }
 
+
+/* Optional: add smooth scroll */
+.modal-card::-webkit-scrollbar {
+  width: 8px;
+}
+.modal-card::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 4px;
+}
+.modal-card::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
 

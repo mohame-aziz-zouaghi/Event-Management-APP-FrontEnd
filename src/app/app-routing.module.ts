@@ -4,6 +4,7 @@ import { EventsComponent } from './Defaultpages/events/events.component';
 import { HomeComponent } from './Defaultpages/home/home.component';
 import { OwnEventsComponent } from './Defaultpages/own-events/own-events.component';
 import { UserSettingsComponent } from './Defaultpages/user-settings/user-settings.component';
+import { CommentSectionComponent } from './Defaultpages/comment-section/comment-section.component';
 
 const routes: Routes = [
   // Redirect root path to login
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'events', component: EventsComponent },
   { path: 'ownevents', component: OwnEventsComponent },
   { path: 'usersettings', component: UserSettingsComponent },
+  { path: 'commentsection', component: CommentSectionComponent },
   { path: 'home', component: HomeComponent }];
 
 @NgModule({

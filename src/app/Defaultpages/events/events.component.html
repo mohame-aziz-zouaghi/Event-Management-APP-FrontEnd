@@ -285,6 +285,8 @@
       <strong>Reservations:</strong> {{ selectedEvent.reservations.length }}
     </div>
 
+    <app-comment-section [eventId]="selectedEvent.id"></app-comment-section>
+
     <div class="mt-3 d-flex justify-content-end">
       <button class="btn btn-secondary" (click)="closeEventModal()">Close</button>
     </div>

@@ -12,6 +12,7 @@ import { HomeComponent } from './Defaultpages/home/home.component';
 import { OwnEventsComponent } from './Defaultpages/own-events/own-events.component';
 
 import { UserSettingsComponent } from './Defaultpages/user-settings/user-settings.component';
+import { CommentSectionComponent } from './Defaultpages/comment-section/comment-section.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { UserSettingsComponent } from './Defaultpages/user-settings/user-setting
     EventsComponent,
     HomeComponent,
     OwnEventsComponent,
-    UserSettingsComponent // ✅ only AppComponent here
+    UserSettingsComponent,
+    CommentSectionComponent // ✅ only AppComponent here
   ],
   imports: [
     BrowserModule,

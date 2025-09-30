@@ -1,0 +1,114 @@
+<div class="comment-card">
+  <!-- Add Comment -->
+  <div class="add-comment">
+    <input [(ngModel)]="newComment" placeholder="Add a comment..." />
+    <button (click)="addComment()">Post</button>
+  </div>
+
+  <!-- Comments -->
+  <div *ngIf="comments.length; else noComments">
+    <div *ngFor="let comment of comments" class="comment-item">
+      <div *ngIf="userMap[comment.userId] as user">
+        <img
+          class="avatar"
+          [src]="user.profilePicture || 'assets/img/default-avatar.png'"
+          alt="user"
+        />
+      </div>
+      <div class="comment-content">
+        <div class="comment-header">
+          <strong>{{ userMap[comment.userId]?.username }}</strong>
+          <span class="time">{{ timeSince(comment.createdAt) }}</span>
+
+          <!-- Comment dropdown -->
+          <span
+            *ngIf="isCommentOwner(comment)"
+            class="options-dropdown"
+            (click)="toggleDropdownComment(comment.id)"
+          >
+            ...
+            <div
+              *ngIf="dropdownCommentId === comment.id"
+              class="options-menu"
+              #commentDropdown
+            >
+              <button (click)="startEditComment(comment)">Edit</button>
+              <button (click)="deleteComment(comment)">Delete</button>
+            </div>
+          </span>
+        </div>
+
+        <!-- Edit input -->
+        <div *ngIf="editingCommentId === comment.id">
+          <input [(ngModel)]="editContent" class="edit-input" />
+          <button class="edit-btn" (click)="saveEditComment(comment)">
+            Update
+          </button>
+          <button class="edit-btn" (click)="cancelEditComment()">Cancel</button>
+        </div>
+
+        <p *ngIf="editingCommentId !== comment.id">{{ comment.content }}</p>
+
+        <!-- Replies -->
+        <div class="replies">
+          <div *ngFor="let reply of replies[comment.id]" class="reply-item">
+            <div *ngIf="userMap[reply.userId] as user">
+              <img
+                class="avatar"
+                [src]="user.profilePicture || 'assets/img/default-avatar.png'"
+                alt="user"
+              />
+            </div>
+            <div class="reply-content">
+              <div class="reply-header">
+                <strong>{{ userMap[reply.userId]?.username }}</strong>
+                <span class="time">{{ timeSince(reply.createdAt) }}</span>
+
+                <!-- Reply dropdown -->
+                <span
+                  *ngIf="isReplyOwner(reply)"
+                  class="options-dropdown"
+                  (click)="toggleDropdownReply(reply.id)"
+                >
+                  ...
+                  <div
+                    *ngIf="dropdownReplyId === reply.id"
+                    class="options-menu"
+                    #replyDropdown
+                  >
+                    <button (click)="startEditReply(reply)">Edit</button>
+                    <button (click)="deleteReply(reply)">Delete</button>
+                  </div>
+                </span>
+              </div>
+
+              <!-- Edit input -->
+              <div *ngIf="editingReplyId === reply.id">
+                <input [(ngModel)]="editContent" class="edit-input" />
+                <button class="edit-btn" (click)="saveEditReply(reply)">
+                  Update
+                </button>
+                <button class="edit-btn" (click)="cancelEditReply()">
+                  Cancel
+                </button>
+              </div>
+
+              <p *ngIf="editingReplyId !== reply.id">{{ reply.content }}</p>
+            </div>
+          </div>
+
+          <!-- Add Reply -->
+          <div class="add-reply">
+            <input [(ngModel)]="newReply[comment.id]" placeholder="Reply..." />
+            <button (click)="addReply(comment.id)">Reply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No comments -->
+  <ng-template #noComments>
+    <p class="text-muted">No one commented yet!</p>
+  </ng-template>
+</div>
