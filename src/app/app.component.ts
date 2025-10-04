@@ -15,7 +15,7 @@ export class AppComponent {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: any) => {
-        const hiddenRoutes = ['/login', '/register']; // routes where navbar is hidden
+        const hiddenRoutes = ['/login', '/register' ,'/dashboard']; // routes where navbar is hidden
         this.showNavbar = !hiddenRoutes.includes(event.urlAfterRedirects);
       });
   }

@@ -1,0 +1,60 @@
+<div class="admin-dashboard">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">Admin Panel</div>
+
+    <!-- Navigation -->
+    <nav class="nav-links">
+      <ul>
+        <li><button disabled>👤 Users</button></li>
+        <li><button disabled>📅 Reservations</button></li>
+        <li><button disabled>🎉 Events</button></li>
+        <li><button disabled>💬 Comments</button></li>
+        <li><button disabled>↩️ Replies</button></li>
+      </ul>
+    </nav>
+
+    <!-- Bottom Actions -->
+    <div class="sidebar-bottom">
+      <button (click)="goToSettings()">⚙️ Settings</button>
+      <button (click)="logout()">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="topbar">
+      <h2>Dashboard</h2>
+    </header>
+
+    <section class="landing">
+      <div class="welcome-card">
+        <h1>Welcome back, Admin 👋</h1>
+        <p>Manage and moderate your platform with ease using the panel on the left.</p>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <h3>👤 Users</h3>
+          <p>Manage registered users</p>
+        </div>
+        <div class="stat-card">
+          <h3>📅 Reservations</h3>
+          <p>Track and monitor reservations</p>
+        </div>
+        <div class="stat-card">
+          <h3>🎉 Events</h3>
+          <p>Organize and update events</p>
+        </div>
+        <div class="stat-card">
+          <h3>💬 Comments</h3>
+          <p>Moderate user discussions</p>
+        </div>
+        <div class="stat-card">
+          <h3>↩️ Replies</h3>
+          <p>Handle replies to comments</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

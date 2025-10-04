@@ -13,6 +13,9 @@ import { OwnEventsComponent } from './Defaultpages/own-events/own-events.compone
 
 import { UserSettingsComponent } from './Defaultpages/user-settings/user-settings.component';
 import { CommentSectionComponent } from './Defaultpages/comment-section/comment-section.component';
+import { HomePageComponent } from './Dashboard/home-page/home-page.component';
+import { NotFoundComponent } from './Defaultpages/not-found/not-found.component';
+import { NotAuthedComponent } from './Defaultpages/not-authed/not-authed.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { CommentSectionComponent } from './Defaultpages/comment-section/comment-
     HomeComponent,
     OwnEventsComponent,
     UserSettingsComponent,
-    CommentSectionComponent // ✅ only AppComponent here
+    CommentSectionComponent,
+    HomePageComponent,
+    NotFoundComponent,
+    NotAuthedComponent // ✅ only AppComponent here
   ],
   imports: [
     BrowserModule,

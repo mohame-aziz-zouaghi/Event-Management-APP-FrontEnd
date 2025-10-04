@@ -32,7 +32,7 @@ export class UserService {
 
   /** Get user by id */
   getUserByid(id: number): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/${id}`);
+    return this.http.get<User>(`${this.baseUrl}/ById/${id}`);
   }
 
   /** Add a new user */
