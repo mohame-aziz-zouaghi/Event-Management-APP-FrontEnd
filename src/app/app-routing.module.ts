@@ -10,6 +10,7 @@ import { NotAuthedComponent } from './Defaultpages/not-authed/not-authed.compone
 import { NotFoundComponent } from './Defaultpages/not-found/not-found.component';
 import { AdminGuard } from './services/admin.guard';
 import { AuthGuard } from './services/auth.guard';
+import { UsersPageComponent } from './Dashboard/users-page/users-page.component';
 
 const routes: Routes = [
   // Redirect root path to login
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'unauthorized', component: NotAuthedComponent },
   { path: 'Not-Found', component: NotFoundComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'Users', component: UsersPageComponent },
   { path: '**', component: NotFoundComponent }];
 
 @NgModule({

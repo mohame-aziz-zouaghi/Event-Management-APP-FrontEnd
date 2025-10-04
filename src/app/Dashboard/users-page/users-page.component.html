@@ -1,0 +1,149 @@
+<div class="users-page">
+  <div class="header-search">
+    <h1>Manage Users</h1>
+
+    <!-- Search + Filters row -->
+    <div class="search-filter-row">
+      <div class="search-bar">
+        <input
+          type="text"
+          placeholder="Search by username..."
+          [(ngModel)]="searchQuery"
+          (input)="onSearchChange()"
+        />
+      </div>
+
+      <div class="gender-filter">
+        <label for="gender">Gender: </label>
+        <select
+          id="gender"
+          [(ngModel)]="genderFilter"
+          (change)="onGenderChange()"
+        >
+          <option value="ALL">All</option>
+          <option value="MASCULIN">Masculin</option>
+          <option value="FEMININ">Féminin</option>
+          <option value="OTHER">Other</option>
+        </select>
+      </div>
+
+      <div class="role-filter">
+        <label for="role">Role: </label>
+        <select id="role" [(ngModel)]="roleFilter" (change)="onRoleChange()">
+          <option value="ALL">All</option>
+          <option value="USER">User</option>
+          <option value="ADMIN">Admin</option>
+        </select>
+      </div>
+
+<!-- Reset Filters Button -->
+<button 
+  class="reset-filters-btn" 
+  (click)="resetFilters()" 
+  [disabled]="!isFilterChanged()" 
+  title="Reset Filters"
+>
+  <i class="fas fa-filter-circle-xmark"></i>
+</button>
+    </div>
+  </div>
+
+  <!-- Users cards -->
+  <div class="users-cards">
+    <div *ngFor="let user of filteredUsers" class="user-card">
+      <div class="profile-pic">
+        <img
+          *ngIf="user.profilePicture; else noPic"
+          [src]="backendUrl + user.profilePicture"
+          alt="profile"
+        />
+        <ng-template #noPic>
+          <div class="placeholder">👤</div>
+        </ng-template>
+      </div>
+
+      <div class="user-info">
+    <!-- Name Row -->
+    <div class="name-row">
+      <h2>{{ user.firstName }}</h2>
+      <h2>{{ user.lastName }}</h2>
+    </div>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p>
+          <strong>Date of Birth:</strong>
+          {{ user.dateOfBirth | date : "mediumDate" }}
+        </p>
+        <p><strong>Gender:</strong> {{ user.genre }}</p>
+        <p>
+          <strong>Organized Events:</strong> {{ user.organizedEvents.length }}
+        </p>
+        <p><strong>Reservations:</strong> {{ user.reservations.length }}</p>
+        <p><strong>Role:</strong> {{ user.role }}</p>
+
+        <!-- Action buttons -->
+        <div class="user-actions">
+          <button (click)="openUpdateModal(user)">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+          <button class="delete-btn" (click)="deleteUser(user.id)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Update User Modal -->
+<div class="modal-overlay" *ngIf="showModal">
+  <div class="modal">
+    <button class="close-btn" (click)="closeModal()">✖</button>
+    <h2>Update User</h2>
+
+    <form [formGroup]="userForm" (ngSubmit)="onSave()">
+      <label>First Name</label>
+      <input formControlName="firstName" type="text" />
+
+      <label>Last Name</label>
+      <input formControlName="lastName" type="text" />
+
+      <label>Username</label>
+      <input formControlName="username" type="text" />
+
+      <label>Role</label>
+      <select formControlName="role">
+        <option value="USER">USER</option>
+        <option value="ADMIN">ADMIN</option>
+      </select>
+
+      <label>Email</label>
+      <input formControlName="email" type="email" />
+
+      <label>Date of Birth</label>
+      <input formControlName="dateOfBirth" type="date" />
+
+      <label>Gender</label>
+      <select formControlName="genre">
+        <option value="MASCULIN">Masculin</option>
+        <option value="FEMININ">Féminin</option>
+        <option value="OTHER">Other</option>
+      </select>
+
+      <label>Profile Picture</label>
+      <input type="file" (change)="onProfileSelected($event)" />
+      <div class="preview" *ngIf="profilePreview">
+        <img [src]="profilePreview" alt="preview" />
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" (click)="closeModal()">
+          Cancel
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="userForm.invalid">
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

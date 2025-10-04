@@ -16,6 +16,7 @@ import { CommentSectionComponent } from './Defaultpages/comment-section/comment-
 import { HomePageComponent } from './Dashboard/home-page/home-page.component';
 import { NotFoundComponent } from './Defaultpages/not-found/not-found.component';
 import { NotAuthedComponent } from './Defaultpages/not-authed/not-authed.component';
+import { UsersPageComponent } from './Dashboard/users-page/users-page.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { NotAuthedComponent } from './Defaultpages/not-authed/not-authed.compone
     CommentSectionComponent,
     HomePageComponent,
     NotFoundComponent,
-    NotAuthedComponent // ✅ only AppComponent here
+    NotAuthedComponent,
+    UsersPageComponent // ✅ only AppComponent here
   ],
   imports: [
     BrowserModule,

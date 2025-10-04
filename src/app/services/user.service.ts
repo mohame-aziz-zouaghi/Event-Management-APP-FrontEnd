@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface User {
-  id:number;
+  id: number;
   firstName: string;
   lastName: string;
   username: string;
@@ -12,18 +12,17 @@ export interface User {
   genre: 'MASCULIN' | 'FEMININ' | 'OTHER';
   organizedEvents: any[]; // You can replace `any` with Event interface later
   reservations: any[]; // You can replace `any` with Reservation interface later
-  profilePicture:string;
+  profilePicture: string;
+  role: string;
 }
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
   private baseUrl = 'http://localhost:8089/api/user'; // replace with your backend URL
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /** Get all users */
   getAllUsers(): Observable<User[]> {
@@ -41,12 +40,13 @@ export class UserService {
   }
 
   /** Update a user */
-updateUser(id: number, formData: FormData): Observable<User> {
-  return this.http.put<User>(`${this.baseUrl}/update/${id}`, formData);
-}
-
-  /** Delete a user */
-  deleteUser(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  updateUser(id: number, formData: FormData): Observable<User> {
+    return this.http.put<User>(`${this.baseUrl}/update/${id}`, formData);
+  }
+  /** Delete event by ID */
+  deleteUser(id: number) {
+    return this.http.delete(`${this.baseUrl}/delete/${id}`, {
+      responseType: 'text',
+    });
   }
 }

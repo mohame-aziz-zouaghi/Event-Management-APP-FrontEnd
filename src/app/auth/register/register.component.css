@@ -190,7 +190,7 @@ a:hover {
 .password-toggle {
   position: absolute;
   right: 10px;
-  top: 38px;
+  top: 60px;
   cursor: pointer;
   color: #6c757d;
 }

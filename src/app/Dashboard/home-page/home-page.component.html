@@ -6,7 +6,7 @@
     <!-- Navigation -->
     <nav class="nav-links">
       <ul>
-        <li><button disabled>👤 Users</button></li>
+        <li><button (click)="navigateTo('userspage')">👤 Users</button></li>
         <li><button disabled>📅 Reservations</button></li>
         <li><button disabled>🎉 Events</button></li>
         <li><button disabled>💬 Comments</button></li>
@@ -27,9 +27,9 @@
       <h2>Dashboard</h2>
     </header>
 
-    <section class="landing">
+    <section class="landing" *ngIf="!activePage">
       <div class="welcome-card">
-        <h1>Welcome back, Admin 👋</h1>
+        <h1>Welcome back, {{username}} 👋</h1>
         <p>Manage and moderate your platform with ease using the panel on the left.</p>
       </div>
 
@@ -56,5 +56,14 @@
         </div>
       </div>
     </section>
+    <!-- Users Page -->
+<app-users-page *ngIf="activePage === 'userspage'"></app-users-page>
+
+<!-- Placeholder for future pages -->
+<div *ngIf="activePage === 'reservations'">Reservations Page Coming Soon...</div>
+<div *ngIf="activePage === 'events'">Events Page Coming Soon...</div>
+<div *ngIf="activePage === 'comments'">Comments Page Coming Soon...</div>
+<div *ngIf="activePage === 'replies'">Replies Page Coming Soon...</div>
+
   </main>
 </div>
