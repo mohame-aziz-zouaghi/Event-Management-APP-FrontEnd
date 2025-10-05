@@ -242,6 +242,7 @@ onPhotoSelected(event: any): void {
   if (files && files.length > 0) {
     for (let i = 0; i < files.length; i++) {
       this.selectedNewPhotos.push(files[i]);
+    console.log(this.selectedNewPhotos);
     }
   }
 }

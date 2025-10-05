@@ -1,0 +1,255 @@
+<div class="events-page">
+  <h1>Manage Events</h1>
+
+  <!-- Header with search + filters -->
+  <div class="header-search">
+    <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Search by title , location or Organizer ..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearchChange()"
+      />
+    </div>
+
+    <div class="filters">
+      <!-- Status filter -->
+      <select [(ngModel)]="selectedStatus" (change)="applyFilters()">
+        <option value="">All --Status--</option>
+        <option value="Upcoming">Upcoming</option>
+        <option value="Ongoing">Ongoing</option>
+        <option value="Ended">Ended</option>
+      </select>
+
+      <!-- Capacity filter -->
+      <select [(ngModel)]="selectedCapacity" (change)="applyFilters()">
+        <option value="">All --Capacities--</option>
+        <option value="Available">Available</option>
+        <option value="Full">Full</option>
+      </select>
+
+      <button
+        class="reset-btn"
+        (click)="resetFilters()"
+        [disabled]="!filtersTouched"
+      >
+        <i class="fa-solid fa-filter-circle-xmark"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Events Cards -->
+  <div class="events-cards">
+    <div *ngFor="let event of filteredEvents" class="event-card">
+      <!-- Event photo (full width) -->
+      <!-- Event photo section -->
+      <div class="event-photo-full">
+        <ng-container
+          *ngIf="event.photoUrls && event.photoUrls.length > 0; else noPhoto"
+        >
+          <img [src]="backendUrl + event.photoUrls[0]" alt="Event Photo" />
+
+          <!-- "+N" More photos button -->
+          <button
+            *ngIf="event.photoUrls && event.photoUrls.length > 1"
+            class="more-photos-btn"
+            (click)="openPhotoModal(event.photoUrls)"
+          >
+            +{{ event.photoUrls.length - 1 }}
+          </button>
+        </ng-container>
+
+        <!-- Placeholder -->
+        <ng-template #noPhoto>
+          <div class="placeholder">🎉</div>
+        </ng-template>
+      </div>
+
+      <!-- Event info -->
+      <div class="event-info">
+        <div class="title-row">
+          <h2>{{ event.title }}</h2>
+          <span class="time-ago">{{ getTimeAgo(event.createAt) }}</span>
+        </div>
+        <p class="description">{{ event.description }}</p>
+        <p><strong>Location:</strong> {{ event.location }}</p>
+        <p>
+          <strong>Organizer:</strong>
+          {{ event.organizerUsername || "Loading..." }}
+        </p>
+        <p><strong>Start:</strong> {{ event.startDate | date : "medium" }}</p>
+        <p><strong>End:</strong> {{ event.endDate | date : "medium" }}</p>
+        <p>
+          <strong>Created At:</strong> {{ event.createAt | date : "medium" }}
+        </p>
+        <p>
+          <strong>Status:</strong>
+          <span *ngIf="getUpdateStatus(event) !== 'Not updated yet!'">
+            Updated on {{ getUpdateStatus(event) | date : "medium" }}
+          </span>
+          <span *ngIf="getUpdateStatus(event) === 'Not updated yet!'">
+            Not updated yet!
+          </span>
+        </p>
+
+        <p>
+          <strong>Capacity:</strong> {{ event.capacity }} |
+          <strong>Remaining:</strong> {{ getRemainingSpots(event) }}
+        </p>
+        <p>
+          <strong>Status:</strong>
+          <span
+            [ngClass]="{
+              ongoing: isEventStarted(event),
+              ended: isEventEnded(event)
+            }"
+          >
+            {{
+              isEventEnded(event)
+                ? "Ended"
+                : isEventStarted(event)
+                ? "Ongoing"
+                : "Upcoming"
+            }}
+          </span>
+        </p>
+
+        <!-- Actions -->
+        <div class="event-actions">
+          <button (click)="openUpdateModal(event)">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+          <button class="delete-btn" (click)="deleteEvent(event.id!)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Photo Modal -->
+  <div class="photo-modal-overlay" *ngIf="isPhotoModalOpen">
+    <div class="photo-modal">
+      <button class="btn-close" (click)="closePhotoModal()">&times;</button>
+      <div class="photo-grid">
+        <img
+          *ngFor="let photo of modalPhotos"
+          [src]="backendUrl + photo"
+          alt="Event Photo"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Update Event Modal -->
+  <div class="modal-overlay" *ngIf="isUpdateModalOpen">
+    <div class="update-modal">
+      <!-- Close Button -->
+      <button class="btn-close" (click)="closeModal()">&times;</button>
+
+      <h2>Update Event</h2>
+
+      <form
+        [formGroup]="eventForm"
+        (ngSubmit)="onSave()"
+        enctype="multipart/form-data"
+      >
+        <!-- Title -->
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input
+            id="title"
+            formControlName="title"
+            type="text"
+            placeholder="Event Title"
+          />
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+          <label for="description">Description:</label>
+          <textarea
+            id="description"
+            formControlName="description"
+            placeholder="Event Description"
+          ></textarea>
+        </div>
+
+        <!-- Start Date -->
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input id="location" type="text" formControlName="location" />
+        </div>
+
+        <!-- Start Date -->
+        <div class="form-group">
+          <label for="startDate">Start Date:</label>
+          <input
+            id="startDate"
+            type="datetime-local"
+            formControlName="startDate"
+          />
+        </div>
+
+        <!-- End Date -->
+        <div class="form-group">
+          <label for="endDate">End Date:</label>
+          <input id="endDate" type="datetime-local" formControlName="endDate" />
+        </div>
+
+        <!-- Capacity -->
+        <div class="form-group">
+          <label for="capacity">Capacity:</label>
+          <input id="capacity" type="number" formControlName="capacity" />
+        </div>
+
+<!-- Photos -->
+<div class="mb-2">
+  <label>Current Photos :</label>
+
+  <div *ngIf="editEvent.photoUrls && editEvent.photoUrls.length > 0; else noPhotos">
+    <div class="d-flex flex-wrap gap-2 mt-2">
+      <div
+        class="photo-wrapper"
+        *ngFor="let photo of editEvent.photoUrls; let i = index"
+      >
+        <img
+          [src]="photo.startsWith('http') ? photo : backendUrl + photo"
+          class="edit-photo-thumb"
+          alt="eventphoto"
+        />
+        <button
+          type="button"
+          class="remove-photo-btn"
+          (click)="removePhoto(i)"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noPhotos>
+    <div class="placeholder">
+      No photos available
+    </div>
+  </ng-template>
+</div>
+
+
+        <!-- Optionally: Add new photo input -->
+        <div class="mt-3">
+          <label for="newPhoto">Add Photo</label>
+          <input
+            id="newPhoto"
+            type="file"
+            (change)="onPhotoSelected($event)"
+            multiple
+          />
+        </div>
+
+        <button type="submit" class="submit-btn">Save Changes</button>
+      </form>
+    </div>
+  </div>
+</div>

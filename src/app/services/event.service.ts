@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Event {
+  target: HTMLInputElement;
   id?: number;
   title: string;
   description: string;
@@ -45,7 +46,7 @@ export class EventService {
   }
 
   /** Update event by ID */
-  updateEvent(id: number | string, formData : FormData ): Observable<Event> {
+  updateEvent(id: number, formData : FormData ): Observable<Event> {
     return this.http.put<Event>(`${this.baseUrl}/update/${id}`, formData);
   }
 

@@ -7,7 +7,7 @@
     <nav class="nav-links">
       <ul>
         <li><button (click)="navigateTo('userspage')">👤 Users</button></li>
-        <li><button disabled>🎉 Events</button></li>
+        <li><button (click)="navigateTo('EventsPage')">🎉 Events</button></li>
         <li><button disabled>📅 Reservations</button></li>
         <li><button disabled>💬 Comments</button></li>
         <li><button disabled>↩️ Replies</button></li>
@@ -58,10 +58,10 @@
     </section>
     <!-- Users Page -->
 <app-users-page *ngIf="activePage === 'userspage'"></app-users-page>
+<app-events-page *ngIf="activePage === 'EventsPage'"></app-events-page>
 
 <!-- Placeholder for future pages -->
 <div *ngIf="activePage === 'reservations'">Reservations Page Coming Soon...</div>
-<div *ngIf="activePage === 'events'">Events Page Coming Soon...</div>
 <div *ngIf="activePage === 'comments'">Comments Page Coming Soon...</div>
 <div *ngIf="activePage === 'replies'">Replies Page Coming Soon...</div>
 
