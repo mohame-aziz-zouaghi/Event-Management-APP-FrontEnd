@@ -1,0 +1,46 @@
+.reservations-page {
+  padding: 16px;
+}
+
+.filters input,
+.filters select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 0.9rem;
+}
+
+.reset-btn {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.reset-btn:hover:not(:disabled) {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.reset-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+
+.active-status {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.cancelled-status {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}

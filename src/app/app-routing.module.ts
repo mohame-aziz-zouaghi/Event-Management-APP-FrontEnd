@@ -12,6 +12,7 @@ import { AdminGuard } from './services/admin.guard';
 import { AuthGuard } from './services/auth.guard';
 import { UsersPageComponent } from './Dashboard/users-page/users-page.component';
 import { EventsPageComponent } from './Dashboard/events-page/events-page.component';
+import { ReservationsPageComponent } from './Dashboard/reservations-page/reservations-page.component';
 
 const routes: Routes = [
   // Redirect root path to login
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'Users', component: UsersPageComponent, canActivate : [AdminGuard] },
   { path: 'EventsPage', component: EventsPageComponent, canActivate : [AdminGuard] },
+  { path: 'ReservationsPage', component: ReservationsPageComponent, canActivate : [AdminGuard] },
   { path: '**', component: NotFoundComponent }];
 
 @NgModule({

@@ -53,7 +53,7 @@ export class ReservationService {
     return this.http.get<Reservation[]>(`${this.baseUrl}/all`);
   }
 
-  /** Cancel a reservation */
+  /** Cancel a reservat ion */
   cancelReservation(id: number): Observable<string> {
     return this.http.put(`${this.baseUrl}/cancel/${id}`, null, { responseType: 'text' });
   }
