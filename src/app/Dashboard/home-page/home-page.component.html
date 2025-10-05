@@ -10,7 +10,7 @@
         <li><button (click)="navigateTo('EventsPage')">🎉 Events</button></li>
         <li><button (click)="navigateTo('ReservationsPage')">📅 Reservations</button></li>
         <li><button (click)="navigateTo('CommentsPage')">💬 Comments</button></li>
-        <li><button disabled>↩️ Replies</button></li>
+        <li><button (click)="navigateTo('RepliesPage')">↩️ Replies</button></li>
       </ul>
     </nav>
 
@@ -61,9 +61,6 @@
 <app-events-page *ngIf="activePage === 'EventsPage'"></app-events-page>
 <app-reservations-page *ngIf="activePage === 'ReservationsPage'"></app-reservations-page>
 <app-comments-page *ngIf="activePage === 'CommentsPage'"></app-comments-page>
-
-<!-- Placeholder for future pages -->
-<div *ngIf="activePage === 'replies'">Replies Page Coming Soon...</div>
-
+<app-replies-page *ngIf="activePage === 'RepliesPage'"></app-replies-page>
   </main>
 </div>

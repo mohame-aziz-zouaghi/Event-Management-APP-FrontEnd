@@ -20,6 +20,7 @@ import { UsersPageComponent } from './Dashboard/users-page/users-page.component'
 import { EventsPageComponent } from './Dashboard/events-page/events-page.component';
 import { ReservationsPageComponent } from './Dashboard/reservations-page/reservations-page.component';
 import { CommentsPageComponent } from './Dashboard/comments-page/comments-page.component';
+import { RepliesPageComponent } from './Dashboard/replies-page/replies-page.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { CommentsPageComponent } from './Dashboard/comments-page/comments-page.c
     UsersPageComponent,
     EventsPageComponent,
     ReservationsPageComponent,
-    CommentsPageComponent // ✅ only AppComponent here
+    CommentsPageComponent,
+    RepliesPageComponent // ✅ only AppComponent here
   ],
   imports: [
     BrowserModule,

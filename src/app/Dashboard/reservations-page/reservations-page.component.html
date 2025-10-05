@@ -10,27 +10,27 @@
       (input)="applyFilters()"
     />
 
-<!-- Status filter -->
-<select [(ngModel)]="selectedStatus" (change)="applyFilters()">
-  <option value="">All Status</option>
-  <option value="CONFIRMED">Confirmed</option>
-  <option value="PENDING">Pending</option>
-  <option value="CANCELLED">Cancelled</option>
-</select>
+    <!-- Status filter -->
+    <select [(ngModel)]="selectedStatus" (change)="applyFilters()">
+      <option value="">All Status</option>
+      <option value="CONFIRMED">Confirmed</option>
+      <option value="PENDING">Pending</option>
+      <option value="CANCELLED">Cancelled</option>
+    </select>
 
-<!-- Day filter -->
-<input type="number" min="1" max="31" placeholder="Day" [(ngModel)]="selectedDay" (input)="applyFilters()"/>
+    <!-- Day filter -->
+    <input type="number" min="1" max="31" placeholder="Day" [(ngModel)]="selectedDay" (input)="applyFilters()"/>
 
-<!-- Month filter -->
-<input type="number" min="1" max="12" placeholder="Month" [(ngModel)]="selectedMonth" (input)="applyFilters()"/>
+    <!-- Month filter -->
+    <input type="number" min="1" max="12" placeholder="Month" [(ngModel)]="selectedMonth" (input)="applyFilters()"/>
 
-<!-- Year filter -->
-<input type="number" min="2000" max="2100" placeholder="Year" [(ngModel)]="selectedYear" (input)="applyFilters()"/>
+    <!-- Year filter -->
+    <input type="number" min="2000" max="2100" placeholder="Year" [(ngModel)]="selectedYear" (input)="applyFilters()"/>
 
-<!-- Reset button -->
-<button class="reset-btn" (click)="resetFilters()" [disabled]="!filtersTouched">
-  <i class="fa-solid fa-filter-circle-xmark"></i>
-</button>
+    <!-- Reset button -->
+    <button class="reset-btn" (click)="resetFilters()" [disabled]="!filtersTouched">
+      <i class="fa-solid fa-filter-circle-xmark"></i>
+    </button>
   </div>
 
   <!-- Loading -->
@@ -46,6 +46,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
+          <th>#</th>
           <th>Username</th>
           <th>Event</th>
           <th>Date</th>
@@ -55,7 +56,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let r of filteredReservations">
+        <tr *ngFor="let r of filteredReservations; let i = index">
+          <td>{{ i + 1 }}</td>
           <td>{{ r.username }}</td>
           <td>{{ r.eventtitle }}</td>
           <td>{{ r.reservationDate | date : "medium" }}</td>

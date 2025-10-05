@@ -1,0 +1,65 @@
+<div class="replies-page">
+  <h2>Replies</h2>
+
+  <!-- Filters -->
+  <div class="filters d-flex gap-2 mb-3 align-items-center">
+    <input
+      type="text"
+      placeholder="Search by content, username, or comment"
+      [(ngModel)]="searchQuery"
+      (input)="applyFilters()"
+    />
+
+    <!-- Day filter -->
+    <input type="number" min="1" max="31" placeholder="Day" [(ngModel)]="selectedDay" (input)="applyFilters()" />
+
+    <!-- Month filter -->
+    <input type="number" min="1" max="12" placeholder="Month" [(ngModel)]="selectedMonth" (input)="applyFilters()" />
+
+    <!-- Year filter -->
+    <input type="number" min="2000" max="2100" placeholder="Year" [(ngModel)]="selectedYear" (input)="applyFilters()" />
+
+    <!-- Reset button -->
+    <button class="reset-btn" (click)="resetFilters()" [disabled]="!filtersTouched">
+      <i class="fa-solid fa-filter-circle-xmark"></i>
+    </button>
+  </div>
+
+  <!-- Replies table -->
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>User</th>
+          <th>Comment</th>
+          <th>Content</th>
+          <th>Created At</th>
+          <th>Updated At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Show message if no replies -->
+        <tr *ngIf="!loading && filteredReplies.length === 0">
+          <td colspan="7" class="text-center">No replies found.</td>
+        </tr>
+
+        <!-- Display replies -->
+        <tr *ngFor="let r of filteredReplies; let i = index" [hidden]="filteredReplies.length === 0">
+          <td>{{ i + 1 }}</td>
+          <td>{{ usersMap[r.userId] || 'Unknown User' }}</td>
+          <td>{{ commentsMap[r.commentId] || 'Unknown Comment' }}</td>
+          <td>{{ r.content }}</td>
+          <td>{{ formatDate(r.createdAt) }}</td>
+          <td>{{ r.updatedAt === r.createdAt ? 'Not Updated Yet!' : formatDate(r.updatedAt) }}</td>
+          <td>
+            <button class="delete-btn" (click)="deleteReply(r)">
+              <i class="fa-solid fa-trash text-danger"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
