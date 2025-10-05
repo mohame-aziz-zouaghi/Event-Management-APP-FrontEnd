@@ -19,6 +19,11 @@ export class CommentService {
 
   constructor(private http: HttpClient) {}
 
+ /** Get all comments */
+  getAllComments(): Observable<CommentDTO[]> {
+    return this.http.get<CommentDTO[]>(`${this.baseUrl}/all`);
+  }
+
   /** Add a new comment */
   addComment(userId: number, eventId: number, content: string): Observable<CommentDTO> {
     return this.http.post<CommentDTO>(`${this.baseUrl}/add/${userId}/${eventId}`, content);

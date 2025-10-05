@@ -1,0 +1,78 @@
+<div class="comments-page">
+<h2>Comments</h2>
+  <!-- Filters -->
+  <div class="filters mb-3 d-flex gap-2 align-items-center flex-wrap">
+    <!-- Search -->
+    <input
+      type="text"
+      placeholder="Search by content, username, or event title..."
+      [(ngModel)]="searchQuery"
+      (input)="applyFilters()"
+    />
+
+    <!-- Day filter -->
+    <select [(ngModel)]="selectedDay" (change)="applyFilters()">
+      <option value="">Day</option>
+      <option *ngFor="let day of [].constructor(31); let i = index" [value]="i + 1">{{ i + 1 }}</option>
+    </select>
+
+    <!-- Month filter -->
+    <select [(ngModel)]="selectedMonth" (change)="applyFilters()">
+      <option value="">Month</option>
+      <option *ngFor="let month of [].constructor(12); let i = index" [value]="i + 1">{{ i + 1 }}</option>
+    </select>
+
+    <!-- Year filter -->
+    <select [(ngModel)]="selectedYear" (change)="applyFilters()">
+      <option value="">Year</option>
+      <option *ngFor="let year of [2023,2024,2025,2026,2027]" [value]="year">{{ year }}</option>
+    </select>
+
+    <!-- Reset button -->
+    <button
+      class="reset-btn"
+      (click)="resetFilters()"
+      [disabled]="!filtersTouched"
+      title="Reset Filters"
+    >
+      <i class="fa-solid fa-filter-circle-xmark"></i>
+    </button>
+  </div>
+
+  <!-- Comments Table -->
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Content</th>
+          <th>User</th>
+          <th>Event</th>
+          <th>Created At</th>
+          <th>Updated At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let comment of filteredComments; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ comment.content }}</td>
+          <td>{{ usersMap[comment.userId] || 'Unknown' }}</td>
+          <td>{{ eventsMap[comment.eventId] || 'Unknown' }}</td>
+          <td>{{ formatDate(comment.createdAt) }}</td>
+          <td [ngClass]="{'active-status': comment.updatedAt !== comment.createdAt, 'cancelled-status': comment.updatedAt === comment.createdAt}">
+            {{ comment.updatedAt === comment.createdAt ? 'Not Updated Yet!' : formatDate(comment.updatedAt) }}
+          </td>
+          <td>
+            <button class="btn btn-sm btn-danger" (click)="deleteComment(comment)">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredComments.length === 0">
+          <td colspan="7" class="text-center">No comments available</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

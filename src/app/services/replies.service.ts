@@ -19,6 +19,12 @@ export class ReplyService {
 
   constructor(private http: HttpClient) {}
 
+ /** Get all comments */
+  getAllReplies(): Observable<ReplyDTO[]> {
+    return this.http.get<ReplyDTO[]>(`${this.baseUrl}/all`);
+  }
+
+
   /** Add a reply to a comment */
   addReply(userId: number, commentId: number, content: string): Observable<ReplyDTO> {
     return this.http.post<ReplyDTO>(`${this.baseUrl}/add/${userId}/${commentId}`, content);

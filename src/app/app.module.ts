@@ -19,6 +19,7 @@ import { NotAuthedComponent } from './Defaultpages/not-authed/not-authed.compone
 import { UsersPageComponent } from './Dashboard/users-page/users-page.component';
 import { EventsPageComponent } from './Dashboard/events-page/events-page.component';
 import { ReservationsPageComponent } from './Dashboard/reservations-page/reservations-page.component';
+import { CommentsPageComponent } from './Dashboard/comments-page/comments-page.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ReservationsPageComponent } from './Dashboard/reservations-page/reserva
     NotAuthedComponent,
     UsersPageComponent,
     EventsPageComponent,
-    ReservationsPageComponent // ✅ only AppComponent here
+    ReservationsPageComponent,
+    CommentsPageComponent // ✅ only AppComponent here
   ],
   imports: [
     BrowserModule,

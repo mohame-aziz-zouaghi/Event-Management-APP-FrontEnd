@@ -1,0 +1,75 @@
+.comments-page {
+  padding: 16px;
+  font-family: Arial, sans-serif;
+  color: #111827;
+}
+
+/* Filters styling */
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.filters input,
+.filters select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 0.9rem;
+  background: #fff;
+}
+
+/* Reset button */
+.reset-btn {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.reset-btn:hover:not(:disabled) {
+  background: #e5e7eb;
+}
+
+.reset-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Table styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+
+.table th,
+.table td {
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* Alternating row colors */
+.comments-table tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* White */
+}
+
+.comments-table tbody tr:nth-child(even) {
+  background-color: #f9fafb; /* Light gray */
+}
+
+/* Delete action icon */
+.delete-icon {
+  color: #ef4444; /* Red */
+  font-size: 1.1rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
