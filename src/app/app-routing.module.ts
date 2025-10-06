@@ -15,6 +15,7 @@ import { EventsPageComponent } from './Dashboard/events-page/events-page.compone
 import { ReservationsPageComponent } from './Dashboard/reservations-page/reservations-page.component';
 import { CommentsPageComponent } from './Dashboard/comments-page/comments-page.component';
 import { RepliesPageComponent } from './Dashboard/replies-page/replies-page.component';
+import { CalendarComponent } from './Defaultpages/calendar/calendar.component';
 
 const routes: Routes = [
   // Redirect root path to login
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'ReservationsPage', component: ReservationsPageComponent, canActivate : [AdminGuard] },
   { path: 'CommentsPage', component: CommentsPageComponent, canActivate : [AdminGuard] },
   { path: 'RepliesPage', component: RepliesPageComponent, canActivate : [AdminGuard] },
+  { path: 'Calendar', component: CalendarComponent, canActivate : [AuthGuard] },
   { path: '**', component: NotFoundComponent }];
 
 @NgModule({

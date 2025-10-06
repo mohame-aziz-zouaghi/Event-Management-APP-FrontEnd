@@ -145,10 +145,13 @@ fetchEvents(): void {
     return `${days} day${days > 1 ? 's' : ''} ago`;
   }
 
-  /** Calculate remaining spots for an event */
-  getRemainingSpots(event: Event): number {
-    return event.capacity - (event.reservations ? event.reservations.length : 0);
-  }
+/** Calculate remaining spots for an event (ignoring cancelled reservations) */
+getRemainingSpots(event: Event): number {
+  if (!event.reservations) return event.capacity;
+
+  const activeReservations = event.reservations.filter(reservation => reservation.status !== 'CANCELLED');
+  return event.capacity - activeReservations.length;
+}
 
   /** Check if the event is full */
   isEventFull(event: Event): boolean {
@@ -199,8 +202,10 @@ reserveSpot(event: Event): void {
         errorMsg = err.error.message; // JSON error with message
       }
 
-      if (errorMsg.includes('already reserved')) {
-        alert('You have already reserved a spot for this event.');
+      if (errorMsg.includes('active reservation')) {
+        alert('You already have an active reservation for this event.');
+      } else if (errorMsg.includes('multiple attempts')) {
+        alert('You already had multiple attempts reserving this event.');
       } else if (errorMsg.includes('capacity full')) {
         alert('Sorry, the event is now full.');
       } else {
@@ -208,6 +213,8 @@ reserveSpot(event: Event): void {
       }
     }
   });
+
+  
 }
 
 
@@ -447,5 +454,13 @@ closePhotoModal() {
   this.selectedPhoto = null;
   document.body.style.overflow = 'auto';
 }
+
+/** Count only active reservations (not cancelled) */
+getActiveReservations(event: Event): number {
+  if (!event.reservations) return 0;
+  return event.reservations.filter(r => r.status !== 'CANCELLED').length;
+}
+
+
 
 }

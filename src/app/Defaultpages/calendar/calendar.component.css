@@ -1,0 +1,81 @@
+/* Wrapper */
+.calendar-wrapper {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Header */
+.calendar-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.calendar-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #343a40;
+}
+
+.calendar-subtitle {
+  font-size: 1rem;
+  color: #6c757d;
+}
+
+/* Calendar box */
+.calendar-box {
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+/* Force all event text to be black */
+.fc-event,
+.fc-event-title,
+.fc-event-time {
+  color: #000 !important;
+  font-weight: 500;
+}
+
+/* No events box */
+.no-events-box {
+  text-align: center;
+  background: #f8f9fa;
+  border: 2px dashed #ced4da;
+  border-radius: 10px;
+  padding: 25px;
+  margin-top: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.no-events-box h5 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.no-events-box p {
+  color: #6c757d;
+  margin-bottom: 15px;
+}
+
+.no-events-box:hover {
+  background: #f1f3f5;
+  border-color: #999;
+}
+
+.no-events-box button {
+  font-weight: 500;
+  padding: 8px 20px;
+}
+
+
+
+.next-reservation-message {
+  background-color: #f0f8ff; /* light blue */
+  border-left: 4px solid #007bff; /* blue accent */
+  padding: 12px;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 0.95rem;
+}

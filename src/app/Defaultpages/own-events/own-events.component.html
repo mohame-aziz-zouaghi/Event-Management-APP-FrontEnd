@@ -39,7 +39,7 @@
         >
           <span
             ><strong>Reservations:</strong>
-            {{ event.reservations?.length || 0 }}</span
+            {{ getActiveReservations(event) }}</span
           >
           <button
             class="btn btn-sm btn-outline-info ms-2"
@@ -224,6 +224,7 @@
       <div *ngIf="selectedReservations.length > 0; else noMembers">
         <ul class="list-group">
           <li *ngFor="let res of selectedReservations" class="list-group-item">
+            <div>
             <strong>{{ res.username }}</strong>
             <small>{{ res.email }}</small>
             <span
@@ -232,6 +233,26 @@
             >
             <span><strong>Ticket:</strong> {{ res.ticketnumber }}</span>
             <span><strong>Status:</strong> {{ res.status }}</span>
+            </div>
+            <div class="reservation-actions">
+            <!-- Confirm -->
+            <button
+              class="btn-action confirm"
+              (click)="confirmReservation(res)"
+              [disabled]="res.status === 'CONFIRMED' || res.status === 'CANCELLED'"
+            >
+              <i class="fa-solid fa-circle-check"></i>
+            </button>
+
+            <!-- Cancel -->
+            <button
+              class="btn-action cancel"
+              (click)="cancelReservation(res)"
+              [disabled]="res.status === 'CANCELLED'"
+            >
+              <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+          </div>
           </li>
         </ul>
       </div>

@@ -3,7 +3,9 @@
   <section class="hero-section text-center">
     <h1>Welcome to Eventify</h1>
     <p>Organize, Manage, and Discover Events Effortlessly</p>
-    <a routerLink="/events" class="btn btn-primary btn-lg mt-3">Explore Events</a>
+    <a routerLink="/events" class="btn btn-primary btn-lg mt-3"
+      >Explore Events</a
+    >
   </section>
 
   <!-- Features Section -->
@@ -15,7 +17,9 @@
           <div class="feature-card p-4 shadow-sm">
             <i class="fas fa-calendar-alt fa-3x mb-3"></i>
             <h5>Easy Scheduling</h5>
-            <p>Create and manage events quickly with our intuitive interface.</p>
+            <p>
+              Create and manage events quickly with our intuitive interface.
+            </p>
           </div>
         </div>
         <div class="col-md-4 mb-4">
@@ -40,13 +44,75 @@
   <section class="upcoming-events-section mt-5">
     <div class="container">
       <h2 class="text-center mb-4">Upcoming Events</h2>
-      <div class="row">
-        <div class="col-md-4 mb-4" *ngFor="let event of upcomingEvents">
-          <div class="event-card shadow-sm p-3">
-            <img [src]="event.image" alt="{{ event.title }}" class="img-fluid rounded mb-2">
-            <h5>{{ event.title }}</h5>
-            <p>{{ event.date | date:'mediumDate' }}</p>
-            <a [routerLink]="['/events', event.id]" class="btn btn-outline-primary btn-sm">View Details</a>
+
+      <!-- No events message -->
+      <div
+        *ngIf="upcomingEvents.length === 0"
+        class="text-center text-muted py-4"
+      >
+        <p>No upcoming events available right now. 🎉</p>
+      </div>
+
+      <!-- Events list -->
+      <div class="row g-4" *ngIf="upcomingEvents.length > 0">
+        <div class="col-md-4" *ngFor="let event of upcomingEvents">
+          <div
+            class="event-card shadow-sm rounded overflow-hidden h-100 d-flex flex-column"
+          >
+            <!-- Event Image -->
+            <div class="event-image mb-3">
+              <ng-container
+                *ngIf="
+                  event.photoUrls && event.photoUrls.length > 0;
+                  else noPhoto
+                "
+              >
+                <img
+                  [src]="backendUrl + event.photoUrls[0]"
+                  alt="{{ event.title }}"
+                  class="img-fluid w-100"
+                />
+              </ng-container>
+              <ng-template #noPhoto>
+                <div
+                  class="placeholder-img d-flex flex-column justify-content-center align-items-center"
+                >
+                  <i class="fa-solid fa-image fa-2x text-muted"></i>
+                  <p class="text-muted mt-2">No available images</p>
+                </div>
+              </ng-template>
+            </div>
+
+            <!-- Event Info -->
+            <div class="p-3 flex-grow-1 d-flex flex-column">
+              <h5 class="mb-2">{{ event.title }}</h5>
+              <p class="text-muted mb-2">{{ event.description }}</p>
+
+              <p class="mb-1">
+                <i class="fa-solid fa-location-dot me-2"></i
+                >{{ event.location }}
+              </p>
+              <p class="mb-2">
+                <i class="fa-solid fa-calendar-days me-2"></i>
+                {{ event.startDate | date : "mediumDate" }} -
+                {{ event.endDate | date : "mediumDate" }}
+              </p>
+
+              <div
+                class="mt-auto d-flex justify-content-between align-items-center"
+              >
+                <p class="remaining-spots">
+                  <strong>Remaining Spots:</strong>
+                  {{ getRemainingSpots(event) }}
+                </p>
+                <a
+                  [routerLink]="['/events']"
+                  class="btn btn-sm btn-outline-primary"
+                >
+                  View Details
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -58,6 +124,5 @@
     <h2>Ready to Manage Your Events?</h2>
     <p class="mb-3">Join Eventify today and simplify event management.</p>
     <a (click)="handleGetStarted()" class="btn btn-light btn-lg">Get Started</a>
-
   </section>
 </div>

@@ -21,6 +21,8 @@ import { EventsPageComponent } from './Dashboard/events-page/events-page.compone
 import { ReservationsPageComponent } from './Dashboard/reservations-page/reservations-page.component';
 import { CommentsPageComponent } from './Dashboard/comments-page/comments-page.component';
 import { RepliesPageComponent } from './Dashboard/replies-page/replies-page.component';
+import { CalendarComponent } from './Defaultpages/calendar/calendar.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @NgModule({
   declarations: [
@@ -38,14 +40,16 @@ import { RepliesPageComponent } from './Dashboard/replies-page/replies-page.comp
     EventsPageComponent,
     ReservationsPageComponent,
     CommentsPageComponent,
-    RepliesPageComponent // ✅ only AppComponent here
+    RepliesPageComponent,
+    CalendarComponent // ✅ only AppComponent here
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule // ⬅️ add here
+    ReactiveFormsModule,
+    FullCalendarModule // ⬅️ add here
 
   ],
   providers: [

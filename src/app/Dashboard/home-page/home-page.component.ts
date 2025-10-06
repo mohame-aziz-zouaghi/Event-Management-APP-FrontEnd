@@ -23,6 +23,10 @@ export class HomePageComponent {
     this.router.navigate(['/usersettings']);
   }
 
+  goToHome() {
+    this.router.navigate(['/home']);
+  }
+
   ngOnInit(): void {
     const token = this.authService.getToken();
     if (token) {

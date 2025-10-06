@@ -203,4 +203,50 @@
 }
 
 
+/* =========================
+   Status Buttons Style
+   ========================= */
+.reservation-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.reservation-actions .btn-action {
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  font-size: 1rem;
+  color: #fff;
+}
+
+/* Confirm Button */
+.reservation-actions .btn-action.confirm {
+  background: #22c55e; /* green */
+}
+
+.reservation-actions .btn-action.confirm:hover {
+  background: #16a34a;
+}
+
+/* Cancel Button */
+.reservation-actions .btn-action.cancel {
+  background: #ef4444; /* red */
+}
+
+.reservation-actions .btn-action.cancel:hover {
+  background: #dc2626;
+}
+
+/* Disabled buttons */
+.reservation-actions .btn-action:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
 

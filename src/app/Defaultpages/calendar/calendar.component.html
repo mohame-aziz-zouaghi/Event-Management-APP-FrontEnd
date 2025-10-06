@@ -1,0 +1,21 @@
+<div class="calendar-wrapper container mt-5">
+  <div class="calendar-header">
+    <h2 class="calendar-title">📅 My Reservations Calendar</h2>
+    <p class="calendar-subtitle">Check your reservations by month, week, or day</p>
+  </div>
+
+  <div class="calendar-box shadow-sm p-3 mb-4 bg-white rounded">
+    <full-calendar #fullcalendar [options]="calendarOptions"></full-calendar>
+  </div>
+
+  <div class="next-reservation-message mb-3" *ngIf="events.length > 0">
+  <p class="text-info">{{ getNextReservationMessage() }}</p>
+</div>
+
+<!-- Message when no upcoming reservations -->
+<div *ngIf="hasNoUpcomingWeekReservations" class="no-events-box text-center p-4">
+  <h5>No Reservations This Week</h5>
+  <p>You don’t have any reservations in the next 7 days. Start by making your first one!</p>
+  <button class="btn btn-primary" [routerLink]="['/events']">+ Add Reservation</button>
+</div>
+</div>

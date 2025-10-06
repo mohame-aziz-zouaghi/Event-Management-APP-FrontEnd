@@ -2,6 +2,7 @@
   padding: 16px;
   font-family: Arial, sans-serif;
   color: #111827;
+  background-color: #f8f9fa;
 }
 
 /* Filters styling */
@@ -33,6 +34,7 @@
 
 .reset-btn:hover:not(:disabled) {
   background: #e5e7eb;
+  color: #111827;
 }
 
 .reset-btn:disabled {
@@ -41,15 +43,18 @@
 }
 
 /* Table styling */
-.table {
+.comments-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
   margin-top: 12px;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.table th,
-.table td {
+.comments-table th,
+.comments-table td {
   padding: 10px 12px;
   border: 1px solid #e5e7eb;
   text-align: left;
@@ -58,18 +63,34 @@
 
 /* Alternating row colors */
 .comments-table tbody tr:nth-child(odd) {
-  background-color: #ffffff; /* White */
+  background-color: #ffffff;
 }
 
 .comments-table tbody tr:nth-child(even) {
-  background-color: #f9fafb; /* Light gray */
+  background-color: #f9fafb;
 }
 
-/* Delete action icon */
+/* Delete icon */
 .delete-icon {
-  color: #ef4444; /* Red */
+  color: #ef4444;
   font-size: 1.1rem;
   cursor: pointer;
   border: none;
   background: none;
+  transition: color 0.3s, transform 0.2s;
+}
+
+.delete-icon:hover {
+  color: #dc2626;
+  transform: scale(1.1);
+}
+
+/* Scrollable table */
+.table-responsive {
+  max-height: 1050px; /* max height of the table */
+  overflow-y: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #fff;
 }

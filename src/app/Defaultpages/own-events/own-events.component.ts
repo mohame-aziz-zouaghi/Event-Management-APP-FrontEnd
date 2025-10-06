@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService, Event } from '../../services/event.service';
 import { UserService } from '../../services/user.service';
+import { Reservation, ReservationService } from 'src/app/services/reservation.service';
 
 @Component({
   selector: 'app-own-events',
@@ -21,7 +22,7 @@ selectedReservations: any[] = [];
 selectedNewPhotos: File[] = [];
 backendUrl = 'http://localhost:8089';
 
-  constructor(private eventService: EventService, private userService: UserService) {}
+  constructor(private eventService: EventService, private userService: UserService,private reservationService:ReservationService) {}
 
   ngOnInit(): void {
     this.fetchUserEvents();
@@ -53,7 +54,7 @@ fetchUserEvents(): void {
 }
 
   isEventFull(event: Event): boolean {
-    return (event.capacity - (event.reservations?.length || 0)) <= 0;
+    return (event.capacity - (event.reservations?.filter(r => r.status !== 'CANCELLED').length || 0)) <= 0;
   }
 
   isEventEnded(event: Event): boolean {
@@ -65,7 +66,7 @@ getEventStatus(event: Event): string {
   const now = new Date();
   const start = new Date(event.startDate).getTime();
   const end = new Date(event.endDate).getTime();
-  const remainingSpots = event.capacity - (event.reservations?.length || 0);
+  const remainingSpots = event.capacity - (event.reservations?.filter(r => r.status !== 'CANCELLED').length || 0);
 
   if (now.getTime() >= end) return 'Ended';
   if (remainingSpots <= 0) return 'Full';
@@ -199,6 +200,7 @@ openReservations(event: Event): void {
     this.userService.getUserByid(res.userId).subscribe({
       next: (user) => {
         this.selectedReservations.push({
+          id:res.id,
           username: user.username,
           email: user.email,
           ticketnumber: res.ticketNumber,
@@ -263,9 +265,46 @@ getPhotoUrl(photoPath: string): string {
   return fullUrl;
 }
 
+// ---------------- Cancel Reservation ----------------
+  cancelReservation(reservation: Reservation): void {
+    if (!confirm(`Are you sure you want to cancel this reservation for "${reservation.username}"?`)) return;
+    console.log(reservation)
+
+    this.reservationService.cancelReservation(reservation.id!).subscribe({
+      next: () => {
+        alert('Reservation cancelled successfully!');
+        this.fetchUserEvents();
+        this.closeReservations();
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Failed to cancel reservation.');
+      }
+    });
+  }
+
+    // ---------------- confirm Reservation ----------------
+  confirmReservation(reservation: Reservation): void {
+    this.reservationService.confirmReservation(reservation.id!).subscribe({
+      next: () => {
+        alert('Reservation Confirmed successfully!');
+        this.fetchUserEvents();
+        this.closeReservations();
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Failed to Confirm reservation.');
+      }
+    });
 
 
+  }
 
+  /** Count only active reservations (not cancelled) */
+getActiveReservations(event: Event): number {
+  if (!event.reservations) return 0;
+  return event.reservations.filter(r => r.status !== 'CANCELLED').length;
+}
 
   
 }

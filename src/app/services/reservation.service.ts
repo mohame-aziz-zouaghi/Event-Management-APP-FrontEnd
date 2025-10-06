@@ -57,4 +57,9 @@ export class ReservationService {
   cancelReservation(id: number): Observable<string> {
     return this.http.put(`${this.baseUrl}/cancel/${id}`, null, { responseType: 'text' });
   }
+
+    /** confirm a reservat ion */
+  confirmReservation(id: number): Observable<string> {
+    return this.http.put(`${this.baseUrl}/confirm/${id}`, null, { responseType: 'text' });
+  }
 }

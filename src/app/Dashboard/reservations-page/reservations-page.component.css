@@ -1,7 +1,21 @@
 .reservations-page {
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #f8f9fa;
 }
 
+/* Table container scroll */
+.table-responsive {
+  max-height: 1050px; /* max height of the table */
+  overflow-y: auto; /* scroll if content exceeds max height */
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 10px;
+}
+
+/* Filters style */
 .filters input,
 .filters select {
   padding: 6px 10px;
@@ -10,6 +24,7 @@
   font-size: 0.9rem;
 }
 
+/* Reset button */
 .reset-btn {
   background: #f3f4f6;
   border: 1px solid #d1d5db;
@@ -29,18 +44,67 @@
   opacity: 0.5;
 }
 
-
+/* Status styling */
 .active-status {
-  color: #10b981;
+  color: #10b981; /* green */
   font-weight: 600;
 }
 
 .cancelled-status {
-  color: #ef4444;
+  color: #ef4444; /* red */
   font-weight: 600;
 }
 
+/* Table cells */
 .table td,
 .table th {
   vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Actions buttons */
+.reservation-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn-action {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.btn-action.confirm {
+  color: #10b981; /* green */
+}
+
+.btn-action.confirm:hover {
+  color: #059669;
+  transform: scale(1.1);
+}
+
+.btn-action.cancel {
+  color: #ef4444; /* red */
+}
+
+.btn-action.cancel:hover {
+  color: #dc2626;
+  transform: scale(1.1);
+}
+
+.btn-action:disabled {
+  color: #9ca3af; /* gray */
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Loading / no reservations message */
+p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #6b7280;
 }

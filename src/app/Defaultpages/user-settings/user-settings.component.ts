@@ -42,18 +42,25 @@ export class UserSettingsComponent implements OnInit {
     });
   }
 
-  private loadUserData() {
-    const token = this.authService.getToken();
-    if (!token) return;
+private loadUserData() {
+  const token = this.authService.getToken();
+  if (!token) return;
 
-    const payload = this.parseJwt(token);
-    this.userId = payload.userId; // assuming JWT contains userId
+  const payload = this.parseJwt(token);
+  this.userId = payload.userId; // assuming JWT contains userId
 
-    this.userService.getUserByid(this.userId).subscribe(user => {
-      this.userForm.patchValue(user);
-      this.profilePreview = this.backendUrl +user.profilePicture; // backend image url
-    });
-  }
+  this.userService.getUserByid(this.userId).subscribe(user => {
+    this.userForm.patchValue(user);
+
+    // ✅ Show backend image if available, otherwise show default avatar
+    if (user.profilePicture && user.profilePicture.trim() !== '') {
+      this.profilePreview = this.backendUrl + user.profilePicture;
+    } else {
+      this.profilePreview = 'assets/img/default-avatar.png';
+    }
+  });
+}
+
 
 onSave(): void {
   if (this.userForm.invalid) return;

@@ -48,7 +48,16 @@
     </button>
 
     <div class="dropdown-menu dropdown-menu-right" [class.show]="dropdownOpen">
+      <!-- Only show Dashboard if user is admin -->
+<a 
+  *ngIf="isAdmin()" 
+  class="dropdown-item" 
+  routerLink="/dashboard" 
+  (click)="closeDropdown()">
+  Dashboard
+</a>
       <a class="dropdown-item" routerLink="/ownevents" (click)="closeDropdown()">Organized Events</a>
+      <a class="dropdown-item" routerLink="/Calendar" (click)="closeDropdown()">Event Calendar</a>
       <a class="dropdown-item" routerLink="/usersettings" (click)="closeDropdown()">Settings</a>
       <a class="dropdown-item" (click)="logout()">Log Out</a>
     </div>

@@ -358,26 +358,22 @@
 }
 
 .reset-filters-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 10px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
   border-radius: 6px;
-  border: none;
-  background: #ef4444;
-  color: #fff;
+  padding: 6px 10px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: 0.3s;
+  transition: background 0.3s, color 0.3s;
 }
 
 .reset-filters-btn:disabled {
-  background: #fca5a5;
   cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .reset-filters-btn:hover:enabled {
-  background: #dc2626;
+  background: #e5e7eb;
+  color: #111827;
 }
 
 

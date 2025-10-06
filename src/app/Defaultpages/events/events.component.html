@@ -281,9 +281,9 @@
       <strong>End:</strong> {{ selectedEvent.endDate | date: 'medium' }}
     </div>
 
-    <div class="mb-2" *ngIf="selectedEvent.reservations?.length">
-      <strong>Reservations:</strong> {{ selectedEvent.reservations.length }}
-    </div>
+<div class="mb-2" *ngIf="getActiveReservations(selectedEvent) > 0">
+  <strong>Reservations:</strong> {{ getActiveReservations(selectedEvent) }}
+</div>
 
     <app-comment-section [eventId]="selectedEvent.id"></app-comment-section>
 

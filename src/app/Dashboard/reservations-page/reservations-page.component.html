@@ -19,16 +19,41 @@
     </select>
 
     <!-- Day filter -->
-    <input type="number" min="1" max="31" placeholder="Day" [(ngModel)]="selectedDay" (input)="applyFilters()"/>
+    <input
+      type="number"
+      min="1"
+      max="31"
+      placeholder="Day"
+      [(ngModel)]="selectedDay"
+      (input)="applyFilters()"
+    />
 
     <!-- Month filter -->
-    <input type="number" min="1" max="12" placeholder="Month" [(ngModel)]="selectedMonth" (input)="applyFilters()"/>
+    <input
+      type="number"
+      min="1"
+      max="12"
+      placeholder="Month"
+      [(ngModel)]="selectedMonth"
+      (input)="applyFilters()"
+    />
 
     <!-- Year filter -->
-    <input type="number" min="2000" max="2100" placeholder="Year" [(ngModel)]="selectedYear" (input)="applyFilters()"/>
+    <input
+      type="number"
+      min="2000"
+      max="2100"
+      placeholder="Year"
+      [(ngModel)]="selectedYear"
+      (input)="applyFilters()"
+    />
 
     <!-- Reset button -->
-    <button class="reset-btn" (click)="resetFilters()" [disabled]="!filtersTouched">
+    <button
+      class="reset-btn"
+      (click)="resetFilters()"
+      [disabled]="!filtersTouched"
+    >
       <i class="fa-solid fa-filter-circle-xmark"></i>
     </button>
   </div>
@@ -70,13 +95,23 @@
             {{ r.status }}
           </td>
           <td>{{ r.ticketNumber }}</td>
-          <td>
+          <td class="reservation-actions">
+            <!-- Confirm -->
             <button
-              class="btn btn-sm btn-danger"
-              (click)="cancelReservation(r)"
-              [disabled]="r.status === 'Cancelled'"
+              class="btn-action confirm"
+              (click)="confirmReservation(r)"
+              [disabled]="r.status === 'CONFIRMED' || r.status === 'CANCELLED'"
             >
-              Cancel
+              <i class="fa-solid fa-circle-check"></i>
+            </button>
+
+            <!-- Cancel -->
+            <button
+              class="btn-action cancel"
+              (click)="cancelReservation(r)"
+              [disabled]="r.status === 'CANCELLED'"
+            >
+              <i class="fa-solid fa-circle-xmark"></i>
             </button>
           </td>
         </tr>

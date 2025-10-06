@@ -121,4 +121,18 @@ resetFilters(): void {
     });
   }
 
+    // ---------------- confirm Reservation ----------------
+  confirmReservation(reservation: Reservation): void {
+    this.reservationService.confirmReservation(reservation.id!).subscribe({
+      next: () => {
+        alert('Reservation Confirmed successfully!');
+        this.loadReservations();
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Failed to Confirm reservation.');
+      }
+    });
+  }
+
 }

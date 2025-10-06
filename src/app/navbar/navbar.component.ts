@@ -118,4 +118,13 @@ loadUserImage(): void {
       }
     }
   }
+
+
+  isAdmin(): boolean {
+  const token = this.authService.getToken();
+  if (!token) return false;
+
+  const payload = JSON.parse(atob(token.split('.')[1]));
+  return payload.role === 'ADMIN'; // adjust according to your role property
+}
 }
