@@ -74,17 +74,22 @@ fetchEvents(): void {
     next: (data) => {
       const now = new Date().getTime();
 
-      this.events = data.sort((a, b) => {
+      // Filter only approved events
+      const approvedEvents = data.filter(event => event.status === 'APPROVED');
+
+      // Sort events according to your custom logic
+      this.events = approvedEvents.sort((a, b) => {
         const statusOrder = (event: Event) => {
           const start = new Date(event.startDate).getTime();
           const end = new Date(event.endDate).getTime();
           const full = this.isEventFull(event);
           const ended = this.isEventEnded(event);
 
-          if (now < start) return 0;           // Not Started
-          if (!ended && full) return 1;        // Full
-          if (now >= start && now < end) return 2; // Started
-          return 3;                            // Ended
+          if (now < start && !full) return 0;          // Upcoming + spots left
+          if (now < start && full) return 1;           // Upcoming + full
+          if (now >= start && now < end && !full) return 2; // Ongoing + not full
+          if (now >= start && now < end && full) return 3;  // Ongoing + full
+          return 4;                                     // Ended
         };
 
         return statusOrder(a) - statusOrder(b);
@@ -102,6 +107,7 @@ fetchEvents(): void {
     }
   });
 }
+
 
 
 

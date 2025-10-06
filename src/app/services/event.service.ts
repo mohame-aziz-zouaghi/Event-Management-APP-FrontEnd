@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Event {
+  showRejectInput?: boolean;
   target: HTMLInputElement;
   id?: number;
   title: string;
@@ -18,7 +19,9 @@ export interface Event {
     // Add this for display purpose
   organizerUsername?: string;
   ticketNumber:string;
-  photoUrls?:string[]; 
+  photoUrls?:string[];
+  status:string;
+  rejectionReason:string; 
 }
 
 @Injectable({
@@ -58,5 +61,11 @@ export class EventService {
   /** Get photos for an event */
 getEventPhotos(eventId: number): Observable<string[]> {
   return this.http.get<string[]>(`${this.baseUrl}/event-photos/${eventId}`);
+}
+
+updateEventStatus(eventId: number, status: string, reason?: string) {
+  const params: any = { status };
+  if (reason) params.reason = reason;
+  return this.http.put<Event>(`${this.baseUrl}/${eventId}/approve`, null, { params });
 }
 }

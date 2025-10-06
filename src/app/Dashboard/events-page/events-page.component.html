@@ -13,6 +13,14 @@
     </div>
 
     <div class="filters">
+      <!-- Approval Status filter -->
+      <select [(ngModel)]="selectedApprovalStatus" (change)="applyFilters()">
+        <option value="">All --Approvals--</option>
+        <option value="PENDING">Pending</option>
+        <option value="APPROVED">Approved</option>
+        <option value="REJECTED">Rejected</option>
+        <option value="FLAGGED">FLAGGED</option>
+      </select>
       <!-- Status filter -->
       <select [(ngModel)]="selectedStatus" (change)="applyFilters()">
         <option value="">All --Status--</option>
@@ -96,34 +104,83 @@
           <strong>Capacity:</strong> {{ event.capacity }} |
           <strong>Remaining:</strong> {{ getRemainingSpots(event) }}
         </p>
+<p class="event-status">
+  <strong>Status:</strong>
+  <span
+    class="status-badge"
+    [ngClass]="{
+      'status-upcoming': !isEventStarted(event) && !isEventEnded(event),
+      'status-ongoing': isEventStarted(event) && !isEventEnded(event),
+      'status-ended': isEventEnded(event)
+    }"
+  >
+    <i
+      class="fa"
+      [ngClass]="{
+        'fa-clock': !isEventStarted(event) && !isEventEnded(event),
+        'fa-play': isEventStarted(event) && !isEventEnded(event),
+        'fa-stop': isEventEnded(event)
+      }"
+    ></i>
+    {{
+      isEventEnded(event)
+        ? 'Ended'
+        : isEventStarted(event)
+        ? 'Ongoing'
+        : 'Upcoming'
+    }}
+  </span>
+</p>
+
+        <!-- Event Status -->
         <p>
-          <strong>Status:</strong>
+          <strong>Approval Status:</strong>
           <span
             [ngClass]="{
-              ongoing: isEventStarted(event),
-              ended: isEventEnded(event)
+              approved: event.status === 'APPROVED',
+              rejected: event.status === 'REJECTED',
+              pending: event.status === 'PENDING'
             }"
           >
-            {{
-              isEventEnded(event)
-                ? "Ended"
-                : isEventStarted(event)
-                ? "Ongoing"
-                : "Upcoming"
-            }}
+            {{ event.status }}
           </span>
         </p>
 
-        <!-- Actions -->
-        <div class="event-actions">
-          <button (click)="openUpdateModal(event)">
-            <i class="fa-solid fa-pen-to-square"></i>
-          </button>
-          <button class="delete-btn" (click)="deleteEvent(event.id!)">
-            <i class="fas fa-trash"></i>
-          </button>
-        </div>
-      </div>
+        <!-- Rejection Reason -->
+        <p *ngIf="event.status === 'REJECTED' && event.rejectionReason">
+          <strong>Reason:</strong> {{ event.rejectionReason }}
+        </p>
+
+    </div>
+    <!-- Actions -->
+    <div class="event-actions">
+      <button (click)="openUpdateModal(event)" class="update">
+        <i class="fa-solid fa-pen-to-square"></i>
+      </button>
+      <button class="delete-btn" (click)="deleteEvent(event.id!)">
+        <i class="fas fa-trash"></i>
+      </button>
+      <!-- Approve & Reject -->
+      <button class="action-btn approve" (click)="approveEvent(event)">
+        <i class="fa-solid fa-circle-check"></i>
+      </button>
+      <button
+        class="action-btn reject"
+        (click)="event.showRejectInput = !event.showRejectInput"
+      >
+        <i class="fa-solid fa-circle-xmark"></i>
+      </button>
+    </div>
+    <!-- Rejection reason input -->
+    <div *ngIf="event.showRejectInput" class="reject-input">
+      <input
+        [(ngModel)]="event.rejectionReason"
+        placeholder="Enter reason..."
+      />
+      <button class="confirm-reject" (click)="rejectEvent(event)">
+        <i class="fa-solid fa-check"></i>
+      </button>
+    </div>
     </div>
   </div>
 
@@ -203,39 +260,41 @@
           <input id="capacity" type="number" formControlName="capacity" />
         </div>
 
-<!-- Photos -->
-<div class="mb-2">
-  <label>Current Photos :</label>
+        <!-- Photos -->
+        <div class="mb-2">
+          <label>Current Photos :</label>
 
-  <div *ngIf="editEvent.photoUrls && editEvent.photoUrls.length > 0; else noPhotos">
-    <div class="d-flex flex-wrap gap-2 mt-2">
-      <div
-        class="photo-wrapper"
-        *ngFor="let photo of editEvent.photoUrls; let i = index"
-      >
-        <img
-          [src]="photo.startsWith('http') ? photo : backendUrl + photo"
-          class="edit-photo-thumb"
-          alt="eventphoto"
-        />
-        <button
-          type="button"
-          class="remove-photo-btn"
-          (click)="removePhoto(i)"
-        >
-          ✕
-        </button>
-      </div>
-    </div>
-  </div>
+          <div
+            *ngIf="
+              editEvent.photoUrls && editEvent.photoUrls.length > 0;
+              else noPhotos
+            "
+          >
+            <div class="d-flex flex-wrap gap-2 mt-2">
+              <div
+                class="photo-wrapper"
+                *ngFor="let photo of editEvent.photoUrls; let i = index"
+              >
+                <img
+                  [src]="photo.startsWith('http') ? photo : backendUrl + photo"
+                  class="edit-photo-thumb"
+                  alt="eventphoto"
+                />
+                <button
+                  type="button"
+                  class="remove-photo-btn"
+                  (click)="removePhoto(i)"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          </div>
 
-  <ng-template #noPhotos>
-    <div class="placeholder">
-      No photos available
-    </div>
-  </ng-template>
-</div>
-
+          <ng-template #noPhotos>
+            <div class="placeholder">No photos available</div>
+          </ng-template>
+        </div>
 
         <!-- Optionally: Add new photo input -->
         <div class="mt-3">

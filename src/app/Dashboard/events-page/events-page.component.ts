@@ -16,6 +16,7 @@ searchQuery: string = '';
 selectedOrganizer: string = '';
 selectedStatus: string = '';
 selectedCapacity: string = '';
+selectedApprovalStatus:string ='';
 
   filtersTouched:boolean = false;
   backendUrl = 'http://localhost:8089';
@@ -34,6 +35,8 @@ selectedCapacity: string = '';
   editEvent: any;
   removedPhotos: string[] = []; // <-- add this
   selectedNewPhotos: File[] = [];
+
+
 
 
 
@@ -89,43 +92,59 @@ selectedCapacity: string = '';
 
   /** Filters & search */
 applyFilters(): void {
-  // Mark filters as touched if any filter or search is active
-  this.filtersTouched =
-    !!this.selectedStatus || !!this.selectedCapacity || !!this.searchQuery;
+  this.filtersTouched = !!this.searchQuery || !!this.selectedStatus || !!this.selectedCapacity || !!this.selectedApprovalStatus;
 
+  // Filter
   this.filteredEvents = this.events.filter(event => {
-    const remainingSpots = event.capacity - (event.reservations?.length || 0);
+    let matchesSearch = true;
+    let matchesStatus = true;
+    let matchesCapacity = true;
+    let matchesApproval = true;
 
-    // ---------------- Status Filter ----------------
+    // Search by title, location, organizer
+    if (this.searchQuery) {
+      const query = this.searchQuery.toLowerCase();
+      matchesSearch =
+        event.title.toLowerCase().includes(query) ||
+        event.location.toLowerCase().includes(query) ||
+        (event.organizerUsername?.toLowerCase().includes(query) ?? false);
+    }
+
+    // Event progress filter
     if (this.selectedStatus) {
-      let statusLabel = this.isEventEnded(event)
-        ? 'Ended'
-        : this.isEventStarted(event)
-        ? 'Ongoing'
-        : 'Upcoming';
-
-      if (this.selectedStatus === 'Full') {
-        if (remainingSpots > 0) return false;
-      } else if (statusLabel !== this.selectedStatus) {
-        return false;
-      }
+      if (this.selectedStatus === 'Upcoming') matchesStatus = !this.isEventStarted(event) && !this.isEventEnded(event);
+      if (this.selectedStatus === 'Ongoing') matchesStatus = this.isEventStarted(event) && !this.isEventEnded(event);
+      if (this.selectedStatus === 'Ended') matchesStatus = this.isEventEnded(event);
     }
 
-    // ---------------- Capacity Filter ----------------
+    // Capacity filter
     if (this.selectedCapacity) {
-      if (this.selectedCapacity === 'Full' && remainingSpots > 0) return false;
-      if (this.selectedCapacity === 'Available' && remainingSpots <= 0) return false;
+      const isFull = this.getRemainingSpots(event) <= 0;
+      matchesCapacity =
+        (this.selectedCapacity === 'Full' && isFull) ||
+        (this.selectedCapacity === 'Available' && !isFull);
     }
 
-    // ---------------- Search Query Filter ----------------
-    const query = this.searchQuery?.toLowerCase() || '';
-    return (
-      event.title.toLowerCase().includes(query) ||
-      event.location.toLowerCase().includes(query) ||
-      (event.organizerUsername?.toLowerCase().includes(query) ?? false)
-    );
+    // Approval status filter
+    if (this.selectedApprovalStatus) {
+      matchesApproval = event.status === this.selectedApprovalStatus;
+    }
+
+    return matchesSearch && matchesStatus && matchesCapacity && matchesApproval;
+  });
+
+  // Sort events in custom order:
+  this.filteredEvents.sort((a, b) => {
+    const getSortValue = (ev: any) => {
+      const remaining = this.getRemainingSpots(ev) > 0;
+      if (!this.isEventStarted(ev) && !this.isEventEnded(ev)) return remaining ? 0 : 1; // Upcoming + Available, Upcoming + Full
+      if (this.isEventStarted(ev) && !this.isEventEnded(ev)) return remaining ? 2 : 3; // Ongoing + Available, Ongoing + Full
+      return 4; // Ended
+    };
+    return getSortValue(a) - getSortValue(b);
   });
 }
+
 
 
 
@@ -136,7 +155,9 @@ resetFilters(): void {
   this.selectedOrganizer = '';
   this.selectedStatus = '';
   this.selectedCapacity = '';
-  this.filteredEvents = [...this.events];
+  this.selectedApprovalStatus='';
+  this.applyFilters();
+
 }
 
   onSearchChange(): void {
@@ -322,6 +343,52 @@ onSave(): void {
     }
   }
 
+
+// EVENT STATUS
+approveEvent(event: Event): void {
+  // Set status to APPROVED and clear rejection reason
+  event.status = 'APPROVED';
+  event.rejectionReason = '';
+
+  // Call the service
+  this.eventService.updateEventStatus(event.id!, event.status).subscribe({
+    next: updatedEvent => {
+      event.status = updatedEvent.status;
+      event.rejectionReason = updatedEvent.rejectionReason || '';
+      alert(`Event "${event.title}" approved successfully!`);
+    },
+    error: err => {
+      console.error(err);
+      alert('Failed to approve event.');
+    }
+  });
+}
+
+toggleRejectInput(event: Event): void {
+  event.showRejectInput = !event.showRejectInput;
+}
+
+rejectEvent(event: Event): void {
+  if (!event.rejectionReason || event.rejectionReason.trim() === '') {
+    alert('Please enter a reason for rejection.');
+    return;
+  }
+
+  event.status = 'REJECTED';
+
+  this.eventService.updateEventStatus(event.id!, event.status, event.rejectionReason).subscribe({
+    next: updatedEvent => {
+      event.status = updatedEvent.status;
+      event.rejectionReason = updatedEvent.rejectionReason || '';
+      event.showRejectInput = false;
+      alert(`Event "${event.title}" rejected successfully!`);
+    },
+    error: err => {
+      console.error(err);
+      alert('Failed to reject event.');
+    }
+  });
+}
 
 
 
