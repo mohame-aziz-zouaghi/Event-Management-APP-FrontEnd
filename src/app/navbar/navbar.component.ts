@@ -125,6 +125,6 @@ loadUserImage(): void {
   if (!token) return false;
 
   const payload = JSON.parse(atob(token.split('.')[1]));
-  return payload.role === 'ADMIN'; // adjust according to your role property
+  return payload.role === 'ADMIN' || payload.role === 'ORGANIZER'; // adjust according to your role property
 }
 }

@@ -56,7 +56,7 @@
   (click)="closeDropdown()">
   Dashboard
 </a>
-      <a class="dropdown-item" routerLink="/ownevents" (click)="closeDropdown()">Organized Events</a>
+      <a class="dropdown-item" routerLink="/ownevents" (click)="closeDropdown() " *ngIf=isAdmin()>Organized Events</a>
       <a class="dropdown-item" routerLink="/Calendar" (click)="closeDropdown()">Event Calendar</a>
       <a class="dropdown-item" routerLink="/usersettings" (click)="closeDropdown()">Settings</a>
       <a class="dropdown-item" (click)="logout()">Log Out</a>
