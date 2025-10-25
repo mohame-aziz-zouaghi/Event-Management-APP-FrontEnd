@@ -45,6 +45,8 @@ backendUrl = 'http://localhost:8089'; // replace with your backend if needed
   showEventModal: boolean = false;
 selectedEvent: any = null;
 
+IsADmin : boolean = false;
+
 
 // Properties
 showPhotoModal: boolean = false;
@@ -54,6 +56,8 @@ selectedPhoto: string | null = null;
 
   ngOnInit(): void {
     this.fetchEvents();
+    this.checkUserRole();
+
 
     // Polling every 5 seconds for real-time updates
     this.refreshSubscription = interval(500000).subscribe(() => {
@@ -461,6 +465,35 @@ getActiveReservations(event: Event): number {
   return event.reservations.filter(r => r.status !== 'CANCELLED').length;
 }
 
+  checkUserRole(): void {
+  // Get current logged-in user ID from token
+  const token = localStorage.getItem('token');
+
+  // Decode token to get userId
+  const payload = JSON.parse(atob(token!.split('.')[1]));
+          console.log( "role " + payload.role ) // adjust key if it's 'roles' or similar
+
+      try {if(payload.role === 'ADMIN'){
+        this.IsADmin = true;
+      }else if(payload.role ==='ORGANIZER'){
+        this.IsADmin = true;
+
+      }else{
+        this.IsADmin = false;
+      }
+
+    
+      } catch (error) {
+        console.error('Invalid token:', error);
+      }
+    }
 
 
-}
+
+
+  }
+
+
+
+
+

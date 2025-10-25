@@ -44,7 +44,7 @@
     </div>
 
     <!-- Right: Add Event button -->
-    <button class="btn btn-success" (click)="toggleAddEventCard()">
+    <button class="btn btn-success" (click)="toggleAddEventCard()" *ngIf="IsADmin" >
       Add Event
     </button>
   </div>
